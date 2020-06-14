@@ -10,8 +10,15 @@ import UIKit
 
 class NewNoteViewController: UIViewController {
 
+    @IBOutlet weak var titleField: UITextField!
+    @IBOutlet weak var noteField: UITextView!
+    
+    public var completion: ((String, String) -> Void)?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+         titleField.becomeFirstResponder()
 
         // Do any additional setup after loading the view.
     }
