@@ -119,6 +119,48 @@
             </objects>
             <point key="canvasLocation" x="1495.6521739130435" y="129.91071428571428"/>
         </scene>
+        <!--Note Detail View Controller-->
+        <scene sceneID="7pD-ru-xo8">
+            <objects>
+                <viewController storyboardIdentifier="note" id="50a-fh-spC" customClass="NoteDetailViewController" customModule="note_elite_FP" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="EMD-YC-7eA">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xji-sc-DHm">
+                                <rect key="frame" x="30" y="64" width="83" height="42"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="35"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="DTA-dE-NMp">
+                                <rect key="frame" x="20" y="114" width="374" height="748"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="DTA-dE-NMp" firstAttribute="leading" secondItem="fhi-LO-nEi" secondAttribute="leading" constant="20" id="5zg-HH-32f"/>
+                            <constraint firstItem="xji-sc-DHm" firstAttribute="leading" secondItem="fhi-LO-nEi" secondAttribute="leading" constant="30" id="Rjn-TM-VZJ"/>
+                            <constraint firstItem="DTA-dE-NMp" firstAttribute="bottom" secondItem="fhi-LO-nEi" secondAttribute="bottom" id="VJ5-gW-wjh"/>
+                            <constraint firstItem="DTA-dE-NMp" firstAttribute="top" secondItem="xji-sc-DHm" secondAttribute="bottom" constant="8" id="dpC-sw-8pl"/>
+                            <constraint firstItem="fhi-LO-nEi" firstAttribute="trailing" secondItem="DTA-dE-NMp" secondAttribute="trailing" constant="20" id="frw-Cj-Ftj"/>
+                            <constraint firstItem="xji-sc-DHm" firstAttribute="top" secondItem="fhi-LO-nEi" secondAttribute="top" constant="20" id="jsF-ZB-HKi"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="fhi-LO-nEi"/>
+                    </view>
+                    <connections>
+                        <outlet property="label" destination="xji-sc-DHm" id="FTT-cd-2qA"/>
+                        <outlet property="noteDetail" destination="DTA-dE-NMp" id="r2W-30-E1W"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nvz-ya-p4O" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2153.6231884057975" y="132.58928571428572"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="fLc-I6-g9J">
             <objects>

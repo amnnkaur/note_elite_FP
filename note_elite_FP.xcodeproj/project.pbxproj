@@ -14,6 +14,7 @@
 		2A170C1024948B5B00CD37DB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2A170C0F24948B5B00CD37DB /* Assets.xcassets */; };
 		2A170C1324948B5B00CD37DB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2A170C1124948B5B00CD37DB /* LaunchScreen.storyboard */; };
 		2ADB64D724968EA000EC55F9 /* NewNoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADB64D624968EA000EC55F9 /* NewNoteViewController.swift */; };
+		2ADB64D92496910200EC55F9 /* NoteDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADB64D82496910200EC55F9 /* NoteDetailViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		2A170C1224948B5B00CD37DB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2A170C1424948B5B00CD37DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2ADB64D624968EA000EC55F9 /* NewNoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewNoteViewController.swift; sourceTree = "<group>"; };
+		2ADB64D82496910200EC55F9 /* NoteDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteDetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +68,7 @@
 				2A170C1124948B5B00CD37DB /* LaunchScreen.storyboard */,
 				2A170C1424948B5B00CD37DB /* Info.plist */,
 				2ADB64D624968EA000EC55F9 /* NewNoteViewController.swift */,
+				2ADB64D82496910200EC55F9 /* NoteDetailViewController.swift */,
 			);
 			path = note_elite_FP;
 			sourceTree = "<group>";
@@ -143,6 +146,7 @@
 			files = (
 				2A170C0B24948B5B00CD37DB /* ViewController.swift in Sources */,
 				2ADB64D724968EA000EC55F9 /* NewNoteViewController.swift in Sources */,
+				2ADB64D92496910200EC55F9 /* NoteDetailViewController.swift in Sources */,
 				2A170C0724948B5B00CD37DB /* AppDelegate.swift in Sources */,
 				2A170C0924948B5B00CD37DB /* SceneDelegate.swift in Sources */,
 			);
