@@ -22,6 +22,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         notesTable.delegate = self
         notesTable.dataSource = self
+        title = "Notes"
     }
     @IBAction func addNote(_ sender: UIBarButtonItem) {
         guard let vc = storyboard?.instantiateViewController(identifier: "new") as? NewNoteViewController else {
@@ -46,15 +47,27 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "noteCell", for: indexPath)
         cell.textLabel?.text = models[indexPath.row].title
         cell.detailTextLabel?.text = models[indexPath.row].note
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-    
-            }
+        tableView.deselectRow(at: indexPath, animated: true)
+
+              let model = models[indexPath.row]
+
+              // Show note controller
+              guard let vc = storyboard?.instantiateViewController(identifier: "note") as? NoteDetailViewController else {
+                  return
+              }
+              vc.navigationItem.largeTitleDisplayMode = .never
+              vc.title = "Note"
+              vc.noteTitle = model.title
+              vc.note = model.note
+              navigationController?.pushViewController(vc, animated: true)
+          }
+
 
 }
