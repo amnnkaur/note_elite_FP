@@ -63,7 +63,11 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="t9l-85-wyI">
-                        <barButtonItem key="rightBarButtonItem" title="Item" image="plus" catalog="system" id="jJG-be-v1i"/>
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="plus" catalog="system" id="jJG-be-v1i">
+                            <connections>
+                                <action selector="addNote:" destination="BYZ-38-t0r" id="a2I-4D-0HE"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="label" destination="s2Y-T1-d8V" id="xk9-9A-R6d"/>
@@ -72,7 +76,22 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1047.8260869565217" y="129.91071428571428"/>
+            <point key="canvasLocation" x="799" y="130"/>
+        </scene>
+        <!--New Note View Controller-->
+        <scene sceneID="obw-eb-j1J">
+            <objects>
+                <viewController storyboardIdentifier="new" id="PZ9-HA-tIc" customClass="NewNoteViewController" customModule="note_elite_FP" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="PVI-lY-GIm">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="gEh-gB-sFi"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3Lj-Ki-DFo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1497" y="130"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="fLc-I6-g9J">

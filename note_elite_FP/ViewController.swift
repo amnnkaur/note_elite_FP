@@ -23,7 +23,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         notesTable.delegate = self
         notesTable.dataSource = self
     }
-
+    @IBAction func addNote(_ sender: UIBarButtonItem) {
+        guard let vc = storyboard?.instantiateViewController(identifier: "new") as? NewNoteViewController else {
+                  return
+              }
+              vc.title = "New Note"
+              vc.navigationItem.largeTitleDisplayMode = .never
+            
+              navigationController?.pushViewController(vc, animated: true)
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
          return models.count
     }
