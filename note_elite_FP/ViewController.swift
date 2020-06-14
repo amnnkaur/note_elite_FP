@@ -34,7 +34,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 vc.completion = { noteTitle, note in
                     self.navigationController?.popToRootViewController(animated: true)
                     self.models.append((title: noteTitle, note: note))
-                    self.label.isHidden = true
+//                    self.label.isHidden = true
                     self.notesTable.isHidden = false
                     self.notesTable.reloadData()
         }
