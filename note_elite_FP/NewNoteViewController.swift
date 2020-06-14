@@ -19,9 +19,15 @@ class NewNoteViewController: UIViewController {
         super.viewDidLoad()
         
          titleField.becomeFirstResponder()
-
-        // Do any additional setup after loading the view.
+          navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(didTapSave))
+        
     }
+        @objc func didTapSave() {
+        if let text = titleField.text, !text.isEmpty, !noteField.text.isEmpty {
+            completion?(text, noteField.text)
+        }
+    }
+
     
 
     /*
