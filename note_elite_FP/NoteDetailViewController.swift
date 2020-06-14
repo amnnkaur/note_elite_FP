@@ -12,8 +12,14 @@ class NoteDetailViewController: UIViewController {
 
     @IBOutlet weak var label: UILabel!
     @IBOutlet weak var noteDetail: UITextView!
+    
+    public var noteTitle: String = ""
+    public var note: String = ""
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        label.text = noteTitle
+        noteDetail.text = note
 
         // Do any additional setup after loading the view.
     }
