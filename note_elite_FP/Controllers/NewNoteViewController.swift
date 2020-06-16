@@ -9,10 +9,15 @@
 import UIKit
 import Speech
 
-class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate {
+class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITabBarDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
 
     @IBOutlet weak var titleField: UITextField!
     @IBOutlet weak var noteField: UITextView!
+    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var optionsTabBar: UITabBar!
+    
+    
+    var imagePicker: UIImagePickerController!
     
     public var completion: ((String, String) -> Void)?
     
@@ -23,7 +28,7 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        optionsTabBar.delegate = self
          titleField.becomeFirstResponder()
           navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(didTapSave))
         
@@ -33,6 +38,54 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate {
             completion?(text, noteField.text)
         }
     }
+    
+    func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+
+        switch optionsTabBar.selectedItem {
+            
+        case self.optionsTabBar.items?[0]:
+
+            break
+            
+        case self.optionsTabBar.items?[1]:
+            imagePicker =  UIImagePickerController()
+            imagePicker.delegate = self
+            if UIImagePickerController.isSourceTypeAvailable(.camera){
+                imagePicker.sourceType = .camera
+            }else{
+                imagePicker.sourceType = .photoLibrary
+            }
+            imagePicker.allowsEditing = true
+            present(imagePicker, animated: true, completion: nil)
+            
+            
+        case self.optionsTabBar.items?[2]:
+            break
+            
+        default:
+            break
+        }
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        imagePicker.dismiss(animated: true, completion: nil)
+        
+        self.imageView.image = info[.editedImage] as? UIImage
+//        guard let image = info[.editedImage] as? UIImage
+//            else {
+//                   print("No image found")
+//                   return
+//               }
+//
+//               // print out the image size as a test
+//               print(image.size)
+       
+    }
+   
 
     @IBAction func speechToTextButton(_ sender: UIButton) {
         

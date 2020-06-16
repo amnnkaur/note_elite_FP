@@ -15,6 +15,7 @@
 		2A170C1324948B5B00CD37DB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2A170C1124948B5B00CD37DB /* LaunchScreen.storyboard */; };
 		2ADB64D724968EA000EC55F9 /* NewNoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADB64D624968EA000EC55F9 /* NewNoteViewController.swift */; };
 		2ADB64D92496910200EC55F9 /* NoteDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADB64D82496910200EC55F9 /* NoteDetailViewController.swift */; };
+		2ADB65252499447400EC55F9 /* attach.png in Resources */ = {isa = PBXBuildFile; fileRef = 2ADB65242499447400EC55F9 /* attach.png */; };
 		8EC4D6DE249829C6003D14AF /* DemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC4D6DD249829C6003D14AF /* DemoViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -29,6 +30,7 @@
 		2A170C1424948B5B00CD37DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2ADB64D624968EA000EC55F9 /* NewNoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewNoteViewController.swift; sourceTree = "<group>"; };
 		2ADB64D82496910200EC55F9 /* NoteDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteDetailViewController.swift; sourceTree = "<group>"; };
+		2ADB65242499447400EC55F9 /* attach.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = attach.png; sourceTree = "<group>"; };
 		8EC4D6DD249829C6003D14AF /* DemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -67,6 +69,7 @@
 				2A170C0824948B5B00CD37DB /* SceneDelegate.swift */,
 				2A170C0C24948B5B00CD37DB /* Main.storyboard */,
 				2A170C0F24948B5B00CD37DB /* Assets.xcassets */,
+				2ADB65242499447400EC55F9 /* attach.png */,
 				2A170C1124948B5B00CD37DB /* LaunchScreen.storyboard */,
 				2A170C1424948B5B00CD37DB /* Info.plist */,
 			);
@@ -144,6 +147,7 @@
 			files = (
 				2A170C1324948B5B00CD37DB /* LaunchScreen.storyboard in Resources */,
 				2A170C1024948B5B00CD37DB /* Assets.xcassets in Resources */,
+				2ADB65252499447400EC55F9 /* attach.png in Resources */,
 				2A170C0E24948B5B00CD37DB /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
