@@ -16,6 +16,7 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var optionsTabBar: UITabBar!
     
+    @IBOutlet weak var speechBtn: UIButton!
     
     var imagePicker: UIImagePickerController!
     
@@ -73,8 +74,25 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         imagePicker.dismiss(animated: true, completion: nil)
+      
+        print("Start")
+        let textAttachment = NSTextAttachment()
+        let attributedString = NSMutableAttributedString(string: "before after")
+
+        textAttachment.image = info[.editedImage] as? UIImage
         
-        self.imageView.image = info[.editedImage] as? UIImage
+        let oldWidth = textAttachment.image!.size.width;
+        
+        let scaleFactor = oldWidth / (self.noteField.frame.size.width - 10); //for the padding inside the textView
+        textAttachment.image = UIImage(cgImage: textAttachment.image!.cgImage!, scale: scaleFactor, orientation: .up)
+        let attrStringWithImage = NSAttributedString(attachment: textAttachment)
+        attributedString.replaceCharacters(in: NSMakeRange(6, 1), with: attrStringWithImage)
+        noteField.attributedText = attributedString;
+        self.view.addSubview(self.noteField)
+        
+          print("End")
+        
+//        self.imageView.image = info[.editedImage] as? UIImage
 //        guard let image = info[.editedImage] as? UIImage
 //            else {
 //                   print("No image found")
@@ -89,12 +107,17 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
 
     @IBAction func speechToTextButton(_ sender: UIButton) {
         
+        
+        
         if audioEngine.isRunning {
-                   self.audioEngine.stop()
+//            self.audioEngine.stop()
+            self.audioEngine.reset()
+            
      
         } else {
                     self.recordAndRecognizeSpeech()
 
+            self.speechBtn.setBackgroundImage(UIImage(systemName: "pause.fill"), for: UIControl.State.normal)
                }
     }
     
