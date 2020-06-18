@@ -14,7 +14,6 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
 
     @IBOutlet weak var titleField: UITextField!
     @IBOutlet weak var noteField: UITextView!
-    @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var optionsTabBar: UITabBar!
     
     @IBOutlet weak var speechBtn: UIButton!
@@ -31,10 +30,15 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
     override func viewDidLoad() {
         super.viewDidLoad()
         optionsTabBar.delegate = self
-         titleField.becomeFirstResponder()
-          navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(didTapSave))
+        titleField.becomeFirstResponder()
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(didTapSave))
         
+        self.hideKeyboardWhenTappedAround()
+
     }
+    
+
+    
         @objc func didTapSave() {
         if let text = titleField.text, !text.isEmpty, !noteField.text.isEmpty {
             completion?(text, noteField.attributedText)
@@ -52,15 +56,39 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
         case self.optionsTabBar.items?[1]:
             imagePicker =  UIImagePickerController()
             imagePicker.delegate = self
-            if UIImagePickerController.isSourceTypeAvailable(.camera){
-                imagePicker.sourceType = .camera
-            }else{
-                imagePicker.sourceType = .photoLibrary
-            }
-            imagePicker.allowsEditing = true
-            present(imagePicker, animated: true, completion: nil)
             
+            let alert = UIAlertController(title: "Alert", message: "Please connect to physical device", preferredStyle: UIAlertController.Style.alert)
+
+            let ok = UIAlertAction(title: "Cancel", style: .default, handler: nil)
+            alert.addAction(ok)
             
+            let actionSheet = UIAlertController(title: "Media", message: "Choose desired media type", preferredStyle: UIAlertController.Style.actionSheet)
+
+                      actionSheet.addAction(UIAlertAction(title: "Camera", style: UIAlertAction.Style.default, handler: { (UIAlertAction) in
+
+                        if UIImagePickerController.isSourceTypeAvailable(.camera){
+                           
+                            self.imagePicker.sourceType = .camera
+                            self.imagePicker.allowsEditing = true
+                            self.present(self.imagePicker, animated: true, completion: nil)
+                        }else {
+                            print("No Camera Available")
+                            self.present(alert, animated: true, completion: nil)
+                        }
+                        
+                      }))
+                      actionSheet.addAction(UIAlertAction(title: "Gallery", style: UIAlertAction.Style.default, handler: { (UIAlertAction) in
+
+                        self.imagePicker.sourceType = .photoLibrary
+                        self.imagePicker.allowsEditing = true
+                        self.present(self.imagePicker, animated: true, completion: nil)
+                         
+                             }))
+                      self.present(actionSheet, animated: true, completion: nil)
+            
+
+            
+        
         case self.optionsTabBar.items?[2]:
             break
             
@@ -183,4 +211,19 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
     }
     */
 
+}
+
+
+extension NewNoteViewController {
+    func hideKeyboardWhenTappedAround() {
+        let swipe: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(NewNoteViewController.dismissKeyboard))
+        swipe.direction = .down
+        noteField.addGestureRecognizer(swipe)
+
+
+    }
+
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
 }
