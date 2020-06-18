@@ -69,5 +69,32 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
               navigationController?.pushViewController(vc, animated: true)
           }
 
+        // Override to support editing the table view.
+   func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+            
+//            var newArray = self.favoritePlaces!
+//
+//            newArray.remove(at: indexPath.row)
+            
+            if editingStyle == .delete {
+                let alert = UIAlertController(title: "Alert", message: "Are you sure you want to delete this?", preferredStyle: .alert)
+                let addAction = UIAlertAction(title: "OK", style: .default) { (UIAlertAction) in
+                    // Delete the row from the data source
+                    self.models.remove(at: indexPath.row)
+                    self.notesTable.deleteRows(at: [indexPath], with: .automatic)
+                    
+//                    self.deleteData(newArray)
+                }
+                let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil)
+            
+                alert.addAction(addAction)
+                alert.addAction(cancelAction)
+                   present(alert, animated: true, completion: nil)
+                
+            } else if editingStyle == .insert {
+                // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+    //            print("insert")
+            }
+        }
 
 }

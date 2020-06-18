@@ -75,22 +75,25 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         imagePicker.dismiss(animated: true, completion: nil)
       
-        print("Start")
-        let textAttachment = NSTextAttachment()
-        let attributedString = NSMutableAttributedString(string: "before after")
+//---------------------------------------
 
-        textAttachment.image = info[.editedImage] as? UIImage
+        let fullString = NSMutableAttributedString()
         
-        let oldWidth = textAttachment.image!.size.width;
+        // create our NSTextAttachment
+        let image1Attachment = NSTextAttachment()
+        image1Attachment.image = info[.editedImage] as? UIImage
+
+        // wrap the attachment in its own attributed string so we can append it
+        let image1String = NSAttributedString(attachment: image1Attachment)
+
+        // add the NSTextAttachment wrapper to our full string, then add some more text.
+        fullString.append(image1String)
+
+        // draw the result in a label
+        noteField.attributedText = fullString
         
-        let scaleFactor = oldWidth / (self.noteField.frame.size.width - 10); //for the padding inside the textView
-        textAttachment.image = UIImage(cgImage: textAttachment.image!.cgImage!, scale: scaleFactor, orientation: .up)
-        let attrStringWithImage = NSAttributedString(attachment: textAttachment)
-        attributedString.replaceCharacters(in: NSMakeRange(6, 1), with: attrStringWithImage)
-        noteField.attributedText = attributedString;
-        self.view.addSubview(self.noteField)
+        //---------------------------------------
         
-          print("End")
         
 //        self.imageView.image = info[.editedImage] as? UIImage
 //        guard let image = info[.editedImage] as? UIImage
@@ -117,7 +120,7 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
         } else {
                     self.recordAndRecognizeSpeech()
 
-            self.speechBtn.setBackgroundImage(UIImage(systemName: "pause.fill"), for: UIControl.State.normal)
+//            self.speechBtn.setBackgroundImage(UIImage(systemName: "pause.fill"), for: UIControl.State.normal)
                }
     }
     
