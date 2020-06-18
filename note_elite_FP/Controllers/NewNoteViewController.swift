@@ -29,6 +29,10 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //mic image
+        self.speechBtn.setImage(UIImage(systemName: "mic"), for: .normal)
+        
         optionsTabBar.delegate = self
         titleField.becomeFirstResponder()
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(didTapSave))
@@ -154,14 +158,18 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
         
         
         if audioEngine.isRunning {
-//            self.audioEngine.stop()
-            self.audioEngine.reset()
+            self.recognitionTask?.finish()
+            audioEngine.inputNode.removeTap(onBus: 0)
+            self.request.endAudio()
+
+            self.recognitionTask = nil
             
+            self.audioEngine.stop()
+self.speechBtn.setImage(UIImage(systemName: "mic"), for: .normal)
      
         } else {
                     self.recordAndRecognizeSpeech()
-
-//            self.speechBtn.setBackgroundImage(UIImage(systemName: "pause.fill"), for: UIControl.State.normal)
+            self.speechBtn.setImage(UIImage(systemName: "stop.fill"), for: .normal)
                }
     }
     
@@ -190,7 +198,7 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
            recognitionTask = speechRecognizer?.recognitionTask(with: request, resultHandler: { (result, error) in
                if let result = result {
                    let bestString = result.bestTranscription.formattedString
-               
+                
                 self.noteField.text = bestString
                } else if let error =  error{
                    print(error)
@@ -198,7 +206,13 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
            })
        }
 
-    
+    func speechRecognizer(_ speechRecognizer: SFSpeechRecognizer, availabilityDidChange available: Bool) {
+        if available{
+            self.speechBtn.isEnabled = true
+        }else {
+            self.speechBtn.isEnabled = false
+        }
+    }
 
 
     /*

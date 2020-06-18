@@ -107,7 +107,6 @@
                             </textView>
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ocV-Ad-m0m">
                                 <rect key="frame" x="369" y="70" width="17" height="16"/>
-                                <state key="normal" image="mic" backgroundImage="mic" catalog="system"/>
                                 <connections>
                                     <action selector="speechToTextButton:" destination="PZ9-HA-tIc" eventType="touchUpInside" id="s7U-Yj-pT7"/>
                                 </connections>
@@ -256,8 +255,6 @@
     <resources>
         <image name="camera.fill" catalog="system" width="128" height="96"/>
         <image name="info.circle.fill" catalog="system" width="128" height="121"/>
-        <image name="mic" width="108" height="128"/>
-        <image name="mic" catalog="system" width="108" height="128"/>
         <image name="plus" catalog="system" width="128" height="113"/>
         <image name="square.and.arrow.up.fill" catalog="system" width="115" height="128"/>
     </resources>
