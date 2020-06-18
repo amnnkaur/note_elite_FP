@@ -70,40 +70,7 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
             break
             
         case self.optionsTabBar.items?[1]:
-            imagePicker =  UIImagePickerController()
-            imagePicker.delegate = self
-            
-            let alert = UIAlertController(title: "Alert", message: "Please connect to physical device", preferredStyle: UIAlertController.Style.alert)
-
-            let ok = UIAlertAction(title: "Cancel", style: .default, handler: nil)
-            alert.addAction(ok)
-            
-            let actionSheet = UIAlertController(title: "Media", message: "Choose desired media type", preferredStyle: UIAlertController.Style.actionSheet)
-
-                      actionSheet.addAction(UIAlertAction(title: "Camera", style: UIAlertAction.Style.default, handler: { (UIAlertAction) in
-
-                        if UIImagePickerController.isSourceTypeAvailable(.camera){
-                           
-                            self.imagePicker.sourceType = .camera
-                            self.imagePicker.allowsEditing = true
-                            self.present(self.imagePicker, animated: true, completion: nil)
-                        }else {
-                            print("No Camera Available")
-                            self.present(alert, animated: true, completion: nil)
-                        }
-                        
-                      }))
-                      actionSheet.addAction(UIAlertAction(title: "Gallery", style: UIAlertAction.Style.default, handler: { (UIAlertAction) in
-
-                        self.imagePicker.sourceType = .photoLibrary
-                        self.imagePicker.allowsEditing = true
-                        self.present(self.imagePicker, animated: true, completion: nil)
-                         
-                             }))
-                      self.present(actionSheet, animated: true, completion: nil)
-            
-
-            
+            pickImageFromCategories()
         
         case self.optionsTabBar.items?[2]:
             break
@@ -113,6 +80,44 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
         }
     }
     
+    
+    // pick image from actionSheet
+    func pickImageFromCategories() {
+        self.imagePicker =  UIImagePickerController()
+        self.imagePicker.delegate = self
+                  
+        let alert = UIAlertController(title: "Alert", message: "Please connect to physical device", preferredStyle:                 UIAlertController.Style.alert)
+
+        let ok = UIAlertAction(title: "Cancel", style: .default, handler: nil)
+                  alert.addAction(ok)
+                  
+        let actionSheet = UIAlertController(title: "Media", message: "Choose desired media type", preferredStyle: UIAlertController.Style.actionSheet)
+
+        actionSheet.addAction(UIAlertAction(title: "Camera", style: UIAlertAction.Style.default, handler: { (UIAlertAction) in
+
+        if UIImagePickerController.isSourceTypeAvailable(.camera){
+                                 
+                self.imagePicker.sourceType = .camera
+                self.imagePicker.allowsEditing = true
+                self.present(self.imagePicker, animated: true, completion: nil)
+        }else {
+                print("No Camera Available")
+                self.present(alert, animated: true, completion: nil)
+            }
+            
+        }))
+    actionSheet.addAction(UIAlertAction(title: "Gallery", style: UIAlertAction.Style.default, handler: { (UIAlertAction) in
+
+        self.imagePicker.sourceType = .photoLibrary
+        self.imagePicker.allowsEditing = true
+        self.present(self.imagePicker, animated: true, completion: nil)
+                
+        }))
+    self.present(actionSheet, animated: true, completion: nil)
+                  
+
+                  
+    }
   
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         self.dismiss(animated: true, completion: nil)
