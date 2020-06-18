@@ -20,7 +20,7 @@ class NoteDetailViewController: UIViewController {
         super.viewDidLoad()
         label.text = noteTitle
         noteDetail.attributedText = note
-
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "mappin"), style: .done, target: self, action: nil)
         // Do any additional setup after loading the view.
     }
     

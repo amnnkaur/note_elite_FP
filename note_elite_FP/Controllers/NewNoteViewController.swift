@@ -38,14 +38,20 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
         optionsTabBar.delegate = self
         titleField.becomeFirstResponder()
         
-        // save button(save function soon going to assigned on Notification)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(didTapSave))
+        // save button(save function soon going to assigned on viewWillappear)
+//        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(didTapSave))
+        
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "location.fill"), style: .done, target: self, action: nil)
         
         // hide keyboard by swiping down
         self.hideKeyboardWhenTappedAround()
 
     }
     
+    // onView will disapper save fucntion rolls in
+    override func viewWillDisappear(_ animated: Bool) {
+        self.didTapSave()
+    }
 
     // save text
     @objc func didTapSave() {
@@ -136,12 +142,13 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
         // add the NSTextAttachment wrapper to our full string, then add some more text.
         fullString.append(stringWithImage)
 
-      
 
+        
+// guard the variable from uncaught exception
         guard let alreadyPresentString = self.noteField.attributedText else { return }
 
         fullString.append(alreadyPresentString)
-        
+      
         // draw the result in a text area
         self.noteField.attributedText = fullString
         
@@ -214,11 +221,11 @@ self.speechBtn.setImage(UIImage(systemName: "mic"), for: .normal)
                if let result = result {
                    let bestString = result.bestTranscription.formattedString
                 
-//                self.noteField.text = bestString
-                let alreadyPresentString = self.noteField.text
-                print("Already: \(alreadyPresentString!)")
-
-                self.noteField.text = "\(alreadyPresentString!) \(bestString)"
+                self.noteField.text = bestString
+//                let alreadyPresentString = self.noteField.text
+//                print("Already: \(alreadyPresentString!)")
+//
+//                self.noteField.text = "\(alreadyPresentString!) \(bestString)"
 
                } else if let error =  error{
                    print(error)
