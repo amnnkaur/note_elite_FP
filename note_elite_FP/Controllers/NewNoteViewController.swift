@@ -131,15 +131,22 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
         attachedImage.image = UIImage(cgImage: attachedImage.image!.cgImage!, scale: scaleFactor, orientation: .up)
         
         // wrap the attachment in its own attributed string so we can append it
-        let image1String = NSAttributedString(attachment: attachedImage)
+        let stringWithImage = NSAttributedString(attachment: attachedImage)
 
         // add the NSTextAttachment wrapper to our full string, then add some more text.
-        fullString.append(image1String)
+        fullString.append(stringWithImage)
 
-        // draw the result in a label
-        noteField.attributedText = fullString
+      
 
+        guard let alreadyPresentString = self.noteField.attributedText else { return }
+
+        fullString.append(alreadyPresentString)
         
+        // draw the result in a text area
+        self.noteField.attributedText = fullString
+        
+        
+//        NSMutableAttributedString(string: alreadyPresentString!) + fullString
         //---------------------------------------
 //        let image = UIImageView(image: info[.editedImage] as? UIImage)
 //        let path = UIBezierPath(rect: CGRect(x: 0, y: 0, width: image.frame.width, height: image.frame.height))
@@ -207,7 +214,12 @@ self.speechBtn.setImage(UIImage(systemName: "mic"), for: .normal)
                if let result = result {
                    let bestString = result.bestTranscription.formattedString
                 
-                self.noteField.text = bestString
+//                self.noteField.text = bestString
+                let alreadyPresentString = self.noteField.text
+                print("Already: \(alreadyPresentString!)")
+
+                self.noteField.text = "\(alreadyPresentString!) \(bestString)"
+
                } else if let error =  error{
                    print(error)
                }
