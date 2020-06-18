@@ -8,6 +8,7 @@
 
 import UIKit
 import Speech
+import CoreGraphics
 
 class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITabBarDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
 
@@ -78,21 +79,33 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
 //---------------------------------------
 
         let fullString = NSMutableAttributedString()
-        
-        // create our NSTextAttachment
-        let image1Attachment = NSTextAttachment()
-        image1Attachment.image = info[.editedImage] as? UIImage
 
+        // create our NSTextAttachment
+        let attachedImage = NSTextAttachment()
+        attachedImage.image = info[.editedImage] as? UIImage
+        
+        let oldWidth = attachedImage.image!.size.width;
+
+        let scaleFactor = oldWidth / (noteField.frame.size.width - 10);
+
+        attachedImage.image = UIImage(cgImage: attachedImage.image!.cgImage!, scale: scaleFactor, orientation: .up)
+        
         // wrap the attachment in its own attributed string so we can append it
-        let image1String = NSAttributedString(attachment: image1Attachment)
+        let image1String = NSAttributedString(attachment: attachedImage)
 
         // add the NSTextAttachment wrapper to our full string, then add some more text.
         fullString.append(image1String)
 
         // draw the result in a label
         noteField.attributedText = fullString
+        print(fullString)
         
         //---------------------------------------
+//        let image = UIImageView(image: info[.editedImage] as? UIImage)
+//        let path = UIBezierPath(rect: CGRect(x: 0, y: 0, width: image.frame.width, height: image.frame.height))
+//        noteField.textContainer.exclusionPaths = [path]
+//        noteField.addSubview(image)
+           //---------------------------------------
         
         
 //        self.imageView.image = info[.editedImage] as? UIImage
@@ -149,7 +162,7 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
            recognitionTask = speechRecognizer?.recognitionTask(with: request, resultHandler: { (result, error) in
                if let result = result {
                    let bestString = result.bestTranscription.formattedString
-                   self.noteField.text = bestString
+                self.noteField.text += bestString
                } else if let error =  error{
                    print(error)
                }
