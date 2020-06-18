@@ -22,6 +22,7 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
     
     public var completion: ((String, NSAttributedString) -> Void)?
     
+    // STT variables
     let audioEngine = AVAudioEngine()
     let speechRecognizer: SFSpeechRecognizer? = SFSpeechRecognizer()
     let request = SFSpeechAudioBufferRecognitionRequest()
@@ -33,22 +34,27 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
         //mic image
         self.speechBtn.setImage(UIImage(systemName: "mic"), for: .normal)
         
+        // tabBar delegate for attachments
         optionsTabBar.delegate = self
         titleField.becomeFirstResponder()
+        
+        // save button(save function soon going to assigned on Notification)
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(didTapSave))
         
+        // hide keyboard by swiping down
         self.hideKeyboardWhenTappedAround()
 
     }
     
 
-    
-        @objc func didTapSave() {
+    // save text
+    @objc func didTapSave() {
         if let text = titleField.text, !text.isEmpty, !noteField.text.isEmpty {
             completion?(text, noteField.attributedText)
         }
     }
     
+    // tabBar of various attachments
     func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
 
         switch optionsTabBar.selectedItem {
@@ -101,10 +107,12 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
         }
     }
     
+  
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         self.dismiss(animated: true, completion: nil)
     }
     
+      // dismiss image picker and asigned image to text area
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         imagePicker.dismiss(animated: true, completion: nil)
       
@@ -152,7 +160,7 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
        
     }
    
-
+    //button for converting speech to text
     @IBAction func speechToTextButton(_ sender: UIButton) {
         
         
@@ -206,6 +214,7 @@ self.speechBtn.setImage(UIImage(systemName: "mic"), for: .normal)
            })
        }
 
+    // if availabity of speech recognizer did change
     func speechRecognizer(_ speechRecognizer: SFSpeechRecognizer, availabilityDidChange available: Bool) {
         if available{
             self.speechBtn.isEnabled = true
@@ -227,8 +236,10 @@ self.speechBtn.setImage(UIImage(systemName: "mic"), for: .normal)
 
 }
 
-
+//extension of self view controller
 extension NewNoteViewController {
+    
+    // hide keyboard by swiping down
     func hideKeyboardWhenTappedAround() {
         let swipe: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(NewNoteViewController.dismissKeyboard))
         swipe.direction = .down
