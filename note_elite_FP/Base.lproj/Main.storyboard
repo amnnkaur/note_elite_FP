@@ -96,23 +96,24 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                             </textField>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="2Iu-9W-SVw">
-                                <rect key="frame" x="20" y="107" width="374" height="673"/>
+                                <rect key="frame" x="20" y="107" width="374" height="706"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="673" id="k7A-5C-kEK"/>
+                                    <constraint firstAttribute="height" constant="706" id="k7A-5C-kEK"/>
                                 </constraints>
                                 <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ocV-Ad-m0m">
-                                <rect key="frame" x="369" y="70" width="17" height="16"/>
+                                <rect key="frame" x="369" y="70" width="17" height="10"/>
                                 <connections>
                                     <action selector="speechToTextButton:" destination="PZ9-HA-tIc" eventType="touchUpInside" id="s7U-Yj-pT7"/>
                                 </connections>
                             </button>
-                            <tabBar contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yQt-ED-KqI">
-                                <rect key="frame" x="0.0" y="813" width="414" height="49"/>
+                            <tabBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yQt-ED-KqI">
+                                <rect key="frame" x="0.0" y="817" width="414" height="49"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <items>
                                     <tabBarItem title="Contacts" image="person.fill" catalog="system" id="WaX-Py-MDH"/>
@@ -129,10 +130,7 @@
                             <constraint firstItem="2Iu-9W-SVw" firstAttribute="top" secondItem="KeI-3B-6d8" secondAttribute="bottom" constant="8" id="CeN-UZ-ANn"/>
                             <constraint firstItem="ocV-Ad-m0m" firstAttribute="leading" secondItem="gEh-gB-sFi" secondAttribute="leading" constant="369" id="D2H-pk-jRC"/>
                             <constraint firstItem="KeI-3B-6d8" firstAttribute="top" secondItem="gEh-gB-sFi" secondAttribute="top" constant="20" id="EYI-go-tbq"/>
-                            <constraint firstItem="yQt-ED-KqI" firstAttribute="trailing" secondItem="gEh-gB-sFi" secondAttribute="trailing" id="GH0-tU-ak5"/>
-                            <constraint firstItem="yQt-ED-KqI" firstAttribute="leading" secondItem="gEh-gB-sFi" secondAttribute="leading" id="Jqa-5P-bih"/>
                             <constraint firstItem="2Iu-9W-SVw" firstAttribute="leading" secondItem="KeI-3B-6d8" secondAttribute="leading" id="Ssw-u0-m4J"/>
-                            <constraint firstItem="yQt-ED-KqI" firstAttribute="bottom" secondItem="gEh-gB-sFi" secondAttribute="bottom" id="VeS-p0-FTE"/>
                             <constraint firstItem="ocV-Ad-m0m" firstAttribute="top" secondItem="gEh-gB-sFi" secondAttribute="top" constant="26" id="Zgx-zR-kJq"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="gEh-gB-sFi"/>

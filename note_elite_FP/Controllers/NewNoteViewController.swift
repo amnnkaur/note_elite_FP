@@ -88,7 +88,7 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
                   
         let alert = UIAlertController(title: "Alert", message: "Please connect to physical device", preferredStyle:                 UIAlertController.Style.alert)
 
-        let ok = UIAlertAction(title: "Cancel", style: .default, handler: nil)
+        let ok = UIAlertAction(title: "OK", style: .default, handler: nil)
                   alert.addAction(ok)
                   
         let actionSheet = UIAlertController(title: "Media", message: "Choose desired media type", preferredStyle: UIAlertController.Style.actionSheet)
