@@ -16,7 +16,7 @@
 		2ADB64D724968EA000EC55F9 /* NewNoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADB64D624968EA000EC55F9 /* NewNoteViewController.swift */; };
 		2ADB64D92496910200EC55F9 /* NoteDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADB64D82496910200EC55F9 /* NoteDetailViewController.swift */; };
 		2ADB65252499447400EC55F9 /* attach.png in Resources */ = {isa = PBXBuildFile; fileRef = 2ADB65242499447400EC55F9 /* attach.png */; };
-		8EC4D6DE249829C6003D14AF /* DemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC4D6DD249829C6003D14AF /* DemoViewController.swift */; };
+		8EC4D6E0249C1D2E003D14AF /* LocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC4D6DF249C1D2E003D14AF /* LocationViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,7 +31,7 @@
 		2ADB64D624968EA000EC55F9 /* NewNoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewNoteViewController.swift; sourceTree = "<group>"; };
 		2ADB64D82496910200EC55F9 /* NoteDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteDetailViewController.swift; sourceTree = "<group>"; };
 		2ADB65242499447400EC55F9 /* attach.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = attach.png; sourceTree = "<group>"; };
-		8EC4D6DD249829C6003D14AF /* DemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoViewController.swift; sourceTree = "<group>"; };
+		8EC4D6DF249C1D2E003D14AF /* LocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,7 +82,7 @@
 				2A170C0A24948B5B00CD37DB /* ViewController.swift */,
 				2ADB64D624968EA000EC55F9 /* NewNoteViewController.swift */,
 				2ADB64D82496910200EC55F9 /* NoteDetailViewController.swift */,
-				8EC4D6DD249829C6003D14AF /* DemoViewController.swift */,
+				8EC4D6DF249C1D2E003D14AF /* LocationViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -162,7 +162,7 @@
 				2A170C0B24948B5B00CD37DB /* ViewController.swift in Sources */,
 				2ADB64D724968EA000EC55F9 /* NewNoteViewController.swift in Sources */,
 				2ADB64D92496910200EC55F9 /* NoteDetailViewController.swift in Sources */,
-				8EC4D6DE249829C6003D14AF /* DemoViewController.swift in Sources */,
+				8EC4D6E0249C1D2E003D14AF /* LocationViewController.swift in Sources */,
 				2A170C0724948B5B00CD37DB /* AppDelegate.swift in Sources */,
 				2A170C0924948B5B00CD37DB /* SceneDelegate.swift in Sources */,
 			);

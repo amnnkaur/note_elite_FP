@@ -9,16 +9,18 @@
 import UIKit
 import Speech
 import CoreGraphics
+import MapKit
 
-class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITabBarDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITabBarDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, CLLocationManagerDelegate {
 
     @IBOutlet weak var titleField: UITextField!
     @IBOutlet weak var noteField: UITextView!
     @IBOutlet weak var optionsTabBar: UITabBar!
-    
     @IBOutlet weak var speechBtn: UIButton!
     
+    var locationManager = CLLocationManager()
     var imagePicker: UIImagePickerController!
+    var liveCoordinates: CLLocationCoordinate2D?
     
     public var completion: ((String, NSAttributedString) -> Void)?
     
@@ -31,21 +33,39 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //mic image
-        self.speechBtn.setImage(UIImage(systemName: "mic"), for: .normal)
-        
-        // tabBar delegate for attachments
-        optionsTabBar.delegate = self
-        titleField.becomeFirstResponder()
-        
-        // save button(save function soon going to assigned on viewWillappear)
-//        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(didTapSave))
-        
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "location.fill"), style: .done, target: self, action: nil)
-        
-        // hide keyboard by swiping down
-        self.hideKeyboardWhenTappedAround()
+       intials()
 
+    }
+    
+    func intials() {
+            //mic image
+                self.speechBtn.setImage(UIImage(systemName: "mic"), for: .normal)
+                
+            // tabBar delegate for attachments
+                optionsTabBar.delegate = self
+                titleField.becomeFirstResponder()
+                
+            // save button(save function soon going to assigned on viewWillappear)
+            // navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(didTapSave))
+                    
+                self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "location"), style: .done, target: self, action: #selector(liveLocation))
+                
+            // hide keyboard by swiping down
+                self.hideKeyboardWhenTappedAround()
+    
+
+            // we give delegate to location manager to this class
+                locationManager.delegate = self
+        
+            // accuracy of the location
+                locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        
+            // request user for location
+                locationManager.requestWhenInUseAuthorization()
+        
+            //start updating the location of the user
+                locationManager.startUpdatingLocation()
+    
     }
     
     // onView will disapper save fucntion rolls in
@@ -58,6 +78,21 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
         if let text = titleField.text, !text.isEmpty, !noteField.text.isEmpty {
             completion?(text, noteField.attributedText)
         }
+    }
+    
+    // objective C function for current location
+    @objc func liveLocation(){
+        let locationViewController = self.storyboard?.instantiateViewController(withIdentifier: "LocationViewController") as! LocationViewController
+
+        locationViewController.coordinates = self.liveCoordinates
+        
+        self.navigationController?.pushViewController(locationViewController, animated: true)
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let userLocation = locations[0]
+              
+        self.liveCoordinates = userLocation.coordinate
     }
     
     // tabBar of various attachments
@@ -123,12 +158,10 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
         self.dismiss(animated: true, completion: nil)
     }
     
-      // dismiss image picker and asigned image to text area
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    // dismiss image picker and asigned image to text area
+        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         imagePicker.dismiss(animated: true, completion: nil)
       
-//---------------------------------------
-
         let fullString = NSMutableAttributedString()
 
         // create our NSTextAttachment
@@ -149,33 +182,13 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
 
 
         
-// guard the variable from uncaught exception
+        // guard the variable from uncaught exception
         guard let alreadyPresentString = self.noteField.attributedText else { return }
 
         fullString.append(alreadyPresentString)
       
         // draw the result in a text area
         self.noteField.attributedText = fullString
-        
-        
-//        NSMutableAttributedString(string: alreadyPresentString!) + fullString
-        //---------------------------------------
-//        let image = UIImageView(image: info[.editedImage] as? UIImage)
-//        let path = UIBezierPath(rect: CGRect(x: 0, y: 0, width: image.frame.width, height: image.frame.height))
-//        noteField.textContainer.exclusionPaths = [path]
-//        noteField.addSubview(image)
-           //---------------------------------------
-        
-        
-
-//        guard let image = info[.editedImage] as? UIImage
-//            else {
-//                   print("No image found")
-//                   return
-//               }
-//
-//               // print out the image size as a test
-//               print(image.size)
        
     }
    
@@ -227,10 +240,6 @@ self.speechBtn.setImage(UIImage(systemName: "mic"), for: .normal)
                    let bestString = result.bestTranscription.formattedString
                 
                 self.noteField.text = bestString
-//                let alreadyPresentString = self.noteField.text
-//                print("Already: \(alreadyPresentString!)")
-//
-//                self.noteField.text = "\(alreadyPresentString!) \(bestString)"
 
                } else if let error =  error{
                    print(error)
@@ -246,17 +255,6 @@ self.speechBtn.setImage(UIImage(systemName: "mic"), for: .normal)
             self.speechBtn.isEnabled = false
         }
     }
-
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
 
