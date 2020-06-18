@@ -21,7 +21,7 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
     
     var imagePicker: UIImagePickerController!
     
-    public var completion: ((String, String) -> Void)?
+    public var completion: ((String, NSAttributedString) -> Void)?
     
     let audioEngine = AVAudioEngine()
     let speechRecognizer: SFSpeechRecognizer? = SFSpeechRecognizer()
@@ -37,7 +37,7 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
     }
         @objc func didTapSave() {
         if let text = titleField.text, !text.isEmpty, !noteField.text.isEmpty {
-            completion?(text, noteField.text)
+            completion?(text, noteField.attributedText)
         }
     }
     
@@ -98,7 +98,7 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
 
         // draw the result in a label
         noteField.attributedText = fullString
-        print(fullString)
+
         
         //---------------------------------------
 //        let image = UIImageView(image: info[.editedImage] as? UIImage)
@@ -108,7 +108,7 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
            //---------------------------------------
         
         
-//        self.imageView.image = info[.editedImage] as? UIImage
+
 //        guard let image = info[.editedImage] as? UIImage
 //            else {
 //                   print("No image found")
@@ -162,7 +162,8 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
            recognitionTask = speechRecognizer?.recognitionTask(with: request, resultHandler: { (result, error) in
                if let result = result {
                    let bestString = result.bestTranscription.formattedString
-                self.noteField.text += bestString
+               
+                self.noteField.text = bestString
                } else if let error =  error{
                    print(error)
                }

@@ -14,7 +14,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     @IBOutlet weak var notesTable: UITableView!
     
-     var models: [(title: String, note: String)] = []
+     var models: [(title: String, note: NSAttributedString)] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,7 +49,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "noteCell", for: indexPath)
         cell.textLabel?.text = models[indexPath.row].title
-        cell.detailTextLabel?.text = models[indexPath.row].note
+        cell.detailTextLabel?.text = models[indexPath.row].note.string
         return cell
     }
     
