@@ -22,7 +22,7 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
     var imagePicker: UIImagePickerController!
     var liveCoordinates: CLLocationCoordinate2D?
     
-    public var completion: ((String, NSAttributedString) -> Void)?
+    public var completion: ((String, NSAttributedString, CLLocationCoordinate2D) -> Void)?
     
     // STT variables
     let audioEngine = AVAudioEngine()
@@ -76,7 +76,7 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
     // save text
     @objc func didTapSave() {
         if let text = titleField.text, !text.isEmpty, !noteField.text.isEmpty {
-            completion?(text, noteField.attributedText)
+            completion?(text, self.noteField.attributedText, self.liveCoordinates ?? CLLocationCoordinate2D())
         }
     }
     

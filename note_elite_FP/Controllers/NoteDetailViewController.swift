@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MapKit
 
 class NoteDetailViewController: UIViewController {
 
@@ -15,24 +16,21 @@ class NoteDetailViewController: UIViewController {
     
     public var noteTitle: String = ""
     public var note: NSAttributedString?
-
+    public var storedCoordinates: CLLocationCoordinate2D?
     override func viewDidLoad() {
         super.viewDidLoad()
         label.text = noteTitle
         noteDetail.attributedText = note
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "mappin"), style: .done, target: self, action: nil)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "mappin"), style: .done, target: self, action: #selector(onMapPinPressed))
         // Do any additional setup after loading the view.
     }
     
+    @objc func onMapPinPressed() {
+        let locationViewController = self.storyboard?.instantiateViewController(withIdentifier: "LocationViewController") as! LocationViewController
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+              locationViewController.coordinates = self.storedCoordinates
+              
+              self.navigationController?.pushViewController(locationViewController, animated: true)
     }
-    */
 
 }

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MapKit
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -14,7 +15,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     @IBOutlet weak var notesTable: UITableView!
     
-     var models: [(title: String, note: NSAttributedString)] = []
+    var models: [(title: String, note: NSAttributedString, coordinates: CLLocationCoordinate2D)] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,9 +32,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
               vc.title = "New Note"
               vc.navigationItem.largeTitleDisplayMode = .never
         
-                vc.completion = { noteTitle, note in
+                vc.completion = { noteTitle, note, storedCoordinates in
                     self.navigationController?.popToRootViewController(animated: true)
-                    self.models.append((title: noteTitle, note: note))
+                    self.models.append((title: noteTitle, note: note, coordinates: storedCoordinates))
 //                    self.label.isHidden = true
                     self.notesTable.isHidden = false
                     self.notesTable.reloadData()
@@ -66,6 +67,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
               vc.title = "Note"
               vc.noteTitle = model.title
               vc.note = model.note
+              vc.storedCoordinates = model.coordinates
               navigationController?.pushViewController(vc, animated: true)
           }
 

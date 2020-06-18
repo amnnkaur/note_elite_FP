@@ -42,6 +42,7 @@ class LocationViewController: UIViewController, CLLocationManagerDelegate, MKMap
     }
 
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        
         let latitude = coordinates!.latitude
         let longitude = coordinates!.longitude
                
