@@ -10,8 +10,9 @@ import UIKit
 import Speech
 import CoreGraphics
 import MapKit
+import ContactsUI
 
-class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITabBarDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, CLLocationManagerDelegate {
+class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITabBarDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, CLLocationManagerDelegate, CNContactPickerDelegate  {
 
     @IBOutlet weak var titleField: UITextField!
     @IBOutlet weak var noteField: UITextView!
@@ -102,7 +103,9 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
             
         case self.optionsTabBar.items?[0]:
 
-            break
+            let contacVC = CNContactPickerViewController()
+            contacVC.delegate = self
+            self.present(contacVC, animated: true, completion: nil)
             
         case self.optionsTabBar.items?[1]:
             pickImageFromCategories()
@@ -115,6 +118,18 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
         }
     }
     
+    func contactPicker(_ picker: CNContactPickerViewController, didSelect contact: CNContact) {
+//        print(contact.phoneNumbers)
+        let numbers = contact.phoneNumbers.first
+//        print((numbers?.value)?.stringValue ?? "")
+        
+//        self.lblNumber.text = " Contact No. \((numbers?.value)?.stringValue ?? "")"
+        self.noteField.text = "Contact No. \((numbers?.value)?.stringValue ?? "")"
+    }
+
+    func contactPickerDidCancel(_ picker: CNContactPickerViewController) {
+        self.dismiss(animated: true, completion: nil)
+    }
     
     // pick image from actionSheet
     func pickImageFromCategories() {
