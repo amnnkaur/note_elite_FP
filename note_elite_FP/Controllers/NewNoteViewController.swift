@@ -11,8 +11,9 @@ import Speech
 import CoreGraphics
 import MapKit
 import ContactsUI
+import MediaPlayer
 
-class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITabBarDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, CLLocationManagerDelegate, CNContactPickerDelegate  {
+class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITabBarDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, CLLocationManagerDelegate, CNContactPickerDelegate, MPMediaPickerControllerDelegate {
 
     @IBOutlet weak var titleField: UITextField!
     @IBOutlet weak var noteField: UITextView!
@@ -111,25 +112,51 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
             pickImageFromCategories()
         
         case self.optionsTabBar.items?[2]:
-            break
+            audioPicker()
             
         default:
             break
         }
     }
-    
+
+    //Contact picker
     func contactPicker(_ picker: CNContactPickerViewController, didSelect contact: CNContact) {
 //        print(contact.phoneNumbers)
         let numbers = contact.phoneNumbers.first
 //        print((numbers?.value)?.stringValue ?? "")
-        
+        let firstName = contact.givenName
+        let lastName = contact.familyName
+//        print(name)
 //        self.lblNumber.text = " Contact No. \((numbers?.value)?.stringValue ?? "")"
-        self.noteField.text = "Contact No. \((numbers?.value)?.stringValue ?? "")"
+        self.noteField.text = " Name: \(firstName) \(lastName)  Contact No. \((numbers?.value)?.stringValue ?? "")"
     }
 
     func contactPickerDidCancel(_ picker: CNContactPickerViewController) {
         self.dismiss(animated: true, completion: nil)
     }
+    
+    //media picker
+    func audioPicker() {
+        let mediaPickerController = MPMediaPickerController(mediaTypes: .music)
+        mediaPickerController.delegate = self
+        mediaPickerController.prompt = "Select Audio"
+        present(mediaPickerController, animated: true, completion: nil)
+    }
+    
+    func mediaPicker(_ mediaPicker: MPMediaPickerController,
+                     didPickMediaItems mediaItemCollection: MPMediaItemCollection) {
+        // Get the system music player.
+        let musicPlayer = MPMusicPlayerController.systemMusicPlayer
+        musicPlayer.setQueue(with: mediaItemCollection)
+        mediaPicker.dismiss(animated: true)
+        // Begin playback.
+        musicPlayer.play()
+    }
+
+    func mediaPickerDidCancel(_ mediaPicker: MPMediaPickerController) {
+        mediaPicker.dismiss(animated: true)
+    }
+
     
     // pick image from actionSheet
     func pickImageFromCategories() {
