@@ -126,25 +126,46 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
     //media picker
     
     @IBAction func pickAudio(_ sender: UIBarButtonItem) {
-        let mediaPickerController = MPMediaPickerController(mediaTypes: .music)
-              mediaPickerController.delegate = self
-              mediaPickerController.prompt = "Select Audio"
-              present(mediaPickerController, animated: true, completion: nil)
-    }
- 
-    
-    func mediaPicker(_ mediaPicker: MPMediaPickerController,
-                     didPickMediaItems mediaItemCollection: MPMediaItemCollection) {
-        // Get the system music player.
-        let musicPlayer = MPMusicPlayerController.systemMusicPlayer
-        musicPlayer.setQueue(with: mediaItemCollection)
-        mediaPicker.dismiss(animated: true)
-        // Begin playback.
-        musicPlayer.play()
-    }
-
-    func mediaPickerDidCancel(_ mediaPicker: MPMediaPickerController) {
-        mediaPicker.dismiss(animated: true)
+       
+        let alert = UIAlertController(title: "Alert", message: "Please choose from below", preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "Record", style: .default, handler: { (UIAlertAction) in
+            print("record")
+            
+//        let innerAlert = UIAlertController(title: "Start recording", message: "", preferredStyle: .alert)
+//        innerAlert.addAction(UIKit.UIAlertAction(title: "Record", style: .default, handler:nil))
+//        innerAlert.addAction(UIKit.UIAlertAction(title: "Stop", style: .default, handler:nil))
+//
+        
+//        self.present(innerAlert, animated: true, completion: nil)
+                        
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Choose from Files", style: .default, handler: { (UIAlertAction) in
+//            print("select")
+            let mediaPickerController = MPMediaPickerController(mediaTypes: .anyAudio)
+            mediaPickerController.delegate = self
+            mediaPickerController.prompt = "Select Audio"
+            self.present(mediaPickerController, animated: true, completion: nil)
+            
+            func mediaPicker(_ mediaPicker: MPMediaPickerController,
+                                didPickMediaItems mediaItemCollection: MPMediaItemCollection) {
+                   // Get the system music player.
+                   let musicPlayer = MPMusicPlayerController.systemMusicPlayer
+                   musicPlayer.setQueue(with: mediaItemCollection)
+                   mediaPicker.dismiss(animated: true)
+                   // Begin playback.
+                   musicPlayer.play()
+               }
+            func mediaPickerDidCancel(_ mediaPicker: MPMediaPickerController) {
+            mediaPicker.dismiss(animated: true)
+            
+               }
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        self.present(alert, animated: true, completion: nil)
+        
     }
 //    // pick image from actionSheet
     @IBAction func pickImage(_ sender: UIBarButtonItem) {
