@@ -107,13 +107,16 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Notes" id="t9l-85-wyI">
-                        <barButtonItem key="rightBarButtonItem" title="Item" image="plus" catalog="system" id="jJG-be-v1i">
+                    <toolbarItems>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="Pn4-sk-zbh"/>
+                        <barButtonItem title="Item" image="pencil.and.ellipsis.rectangle" catalog="system" id="Ita-7f-eUJ">
                             <connections>
-                                <action selector="addNote:" destination="BYZ-38-t0r" id="2OJ-Vp-ifK"/>
+                                <segue destination="3D4-C0-iQy" kind="show" id="eg5-fC-She"/>
                             </connections>
                         </barButtonItem>
-                    </navigationItem>
+                    </toolbarItems>
+                    <navigationItem key="navigationItem" title="Notes" id="t9l-85-wyI"/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="notesTable" destination="U9Q-sz-dju" id="JAO-OV-T2b"/>
                     </connections>
@@ -147,71 +150,75 @@
             <point key="canvasLocation" x="1110.144927536232" y="854.46428571428567"/>
         </scene>
         <!--New Note View Controller-->
-        <scene sceneID="obw-eb-j1J">
+        <scene sceneID="eoF-4N-XTz">
             <objects>
-                <viewController storyboardIdentifier="newNoteViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="PZ9-HA-tIc" customClass="NewNoteViewController" customModule="note_elite_FP" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="PVI-lY-GIm">
+                <viewController id="3D4-C0-iQy" customClass="NewNoteViewController" customModule="note_elite_FP" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="4bn-u4-mJB">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KeI-3B-6d8">
-                                <rect key="frame" x="20" y="64" width="374" height="35"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="374" id="5ED-4I-QCj"/>
-                                </constraints>
+                                <rect key="frame" x="20" y="109" width="52.5" height="35"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="28"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                             </textField>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="2Iu-9W-SVw">
-                                <rect key="frame" x="20" y="107" width="374" height="706"/>
+                                <rect key="frame" x="20" y="152" width="374" height="639"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="706" id="k7A-5C-kEK"/>
+                                    <constraint firstAttribute="height" constant="639" id="Gg5-VO-cgF"/>
                                 </constraints>
                                 <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ocV-Ad-m0m">
-                                <rect key="frame" x="369" y="70" width="17" height="10"/>
-                                <connections>
-                                    <action selector="speechToTextButton:" destination="PZ9-HA-tIc" eventType="touchUpInside" id="s7U-Yj-pT7"/>
-                                </connections>
-                            </button>
-                            <tabBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yQt-ED-KqI">
-                                <rect key="frame" x="0.0" y="817" width="414" height="49"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <items>
-                                    <tabBarItem title="Contacts" image="person.fill" catalog="system" id="WaX-Py-MDH"/>
-                                    <tabBarItem title="Camera" image="camera.fill" catalog="system" id="YA8-9K-P7a"/>
-                                    <tabBarItem title="Audio" image="mic.circle.fill" catalog="system" id="Mtj-lg-t4G"/>
-                                </items>
-                            </tabBar>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="gEh-gB-sFi" firstAttribute="trailing" secondItem="ocV-Ad-m0m" secondAttribute="trailing" constant="28" id="1Uu-Jg-DPu"/>
-                            <constraint firstItem="2Iu-9W-SVw" firstAttribute="trailing" secondItem="KeI-3B-6d8" secondAttribute="trailing" id="3Tw-63-p3X"/>
-                            <constraint firstItem="KeI-3B-6d8" firstAttribute="leading" secondItem="gEh-gB-sFi" secondAttribute="leading" constant="20" id="4hL-Gh-yGQ"/>
-                            <constraint firstItem="2Iu-9W-SVw" firstAttribute="top" secondItem="KeI-3B-6d8" secondAttribute="bottom" constant="8" id="CeN-UZ-ANn"/>
-                            <constraint firstItem="ocV-Ad-m0m" firstAttribute="leading" secondItem="gEh-gB-sFi" secondAttribute="leading" constant="369" id="D2H-pk-jRC"/>
-                            <constraint firstItem="KeI-3B-6d8" firstAttribute="top" secondItem="gEh-gB-sFi" secondAttribute="top" constant="20" id="EYI-go-tbq"/>
-                            <constraint firstItem="2Iu-9W-SVw" firstAttribute="leading" secondItem="KeI-3B-6d8" secondAttribute="leading" id="Ssw-u0-m4J"/>
-                            <constraint firstItem="ocV-Ad-m0m" firstAttribute="top" secondItem="gEh-gB-sFi" secondAttribute="top" constant="26" id="Zgx-zR-kJq"/>
+                            <constraint firstItem="b74-ma-G8l" firstAttribute="trailing" secondItem="2Iu-9W-SVw" secondAttribute="trailing" constant="20" id="GWj-GS-L0E"/>
+                            <constraint firstItem="2Iu-9W-SVw" firstAttribute="leading" secondItem="b74-ma-G8l" secondAttribute="leading" constant="20" id="HCX-LF-qk5"/>
+                            <constraint firstItem="b74-ma-G8l" firstAttribute="bottom" secondItem="2Iu-9W-SVw" secondAttribute="bottom" constant="22" id="Yf0-PQ-9hd"/>
+                            <constraint firstItem="KeI-3B-6d8" firstAttribute="leading" secondItem="b74-ma-G8l" secondAttribute="leading" constant="20" id="gS4-zU-Jd5"/>
+                            <constraint firstItem="KeI-3B-6d8" firstAttribute="top" secondItem="4bn-u4-mJB" secondAttribute="top" constant="109" id="y7Q-Xt-Ghd"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="gEh-gB-sFi"/>
+                        <viewLayoutGuide key="safeArea" id="b74-ma-G8l"/>
                     </view>
+                    <toolbarItems>
+                        <barButtonItem title="Camera" image="camera" catalog="system" id="8GN-af-7Up">
+                            <connections>
+                                <action selector="pickImage:" destination="3D4-C0-iQy" id="Bzo-Mk-y4X"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="Ijf-Dm-n01"/>
+                        <barButtonItem title="STT" image="mic" catalog="system" id="Xe4-Sz-alm">
+                            <connections>
+                                <action selector="speechToTextButton:" destination="3D4-C0-iQy" id="tqG-ab-lai"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="3bB-0Y-0Rz"/>
+                        <barButtonItem title="Contact" image="person" catalog="system" id="6x7-Sw-Wmy">
+                            <connections>
+                                <action selector="pickContact:" destination="3D4-C0-iQy" id="5Qt-uB-Jal"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="fN2-pD-ThD"/>
+                        <barButtonItem title="Audio" image="mic.circle" catalog="system" id="ewb-oO-Tk3">
+                            <connections>
+                                <action selector="pickAudio:" destination="3D4-C0-iQy" id="ti7-vS-WRD"/>
+                            </connections>
+                        </barButtonItem>
+                    </toolbarItems>
+                    <navigationItem key="navigationItem" id="cdM-Xq-XnJ"/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="noteField" destination="2Iu-9W-SVw" id="ZtJ-AA-VcR"/>
-                        <outlet property="optionsTabBar" destination="yQt-ED-KqI" id="xGg-Tx-f8e"/>
-                        <outlet property="speechBtn" destination="ocV-Ad-m0m" id="erB-xl-XvZ"/>
-                        <outlet property="titleField" destination="KeI-3B-6d8" id="rgH-yO-pvM"/>
+                        <outlet property="noteField" destination="2Iu-9W-SVw" id="TSJ-be-9TZ"/>
+                        <outlet property="speechBtn" destination="Xe4-Sz-alm" id="T81-L7-gTv"/>
+                        <outlet property="titleField" destination="KeI-3B-6d8" id="9vu-8E-TF0"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="3Lj-Ki-DFo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="sXZ-mK-AVe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1495.6521739130435" y="129.91071428571428"/>
+            <point key="canvasLocation" x="1855.072463768116" y="126.5625"/>
         </scene>
         <!--Note Detail View Controller-->
         <scene sceneID="7pD-ru-xo8">
@@ -253,7 +260,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nvz-ya-p4O" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2153.6231884057975" y="132.58928571428572"/>
+            <point key="canvasLocation" x="3451" y="130"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="wE9-Hj-CzE">
@@ -282,10 +289,11 @@
         </scene>
     </scenes>
     <resources>
-        <image name="camera.fill" catalog="system" width="128" height="96"/>
+        <image name="camera" catalog="system" width="128" height="96"/>
         <image name="folder.badge.plus" catalog="system" width="128" height="86"/>
-        <image name="mic.circle.fill" catalog="system" width="128" height="121"/>
-        <image name="person.fill" catalog="system" width="128" height="120"/>
-        <image name="plus" catalog="system" width="128" height="113"/>
+        <image name="mic" catalog="system" width="108" height="128"/>
+        <image name="mic.circle" catalog="system" width="128" height="121"/>
+        <image name="pencil.and.ellipsis.rectangle" catalog="system" width="128" height="81"/>
+        <image name="person" catalog="system" width="128" height="117"/>
     </resources>
 </document>

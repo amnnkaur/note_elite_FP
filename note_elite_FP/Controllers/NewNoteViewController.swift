@@ -18,7 +18,8 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
     @IBOutlet weak var titleField: UITextField!
     @IBOutlet weak var noteField: UITextView!
     @IBOutlet weak var optionsTabBar: UITabBar!
-    @IBOutlet weak var speechBtn: UIButton!
+   
+    @IBOutlet weak var speechBtn: UIBarButtonItem!
     
     var locationManager = CLLocationManager()
     var imagePicker: UIImagePickerController!
@@ -41,10 +42,10 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
     
     func intials() {
             //mic image
-                self.speechBtn.setImage(UIImage(systemName: "mic"), for: .normal)
+               
                 
             // tabBar delegate for attachments
-                optionsTabBar.delegate = self
+//                optionsTabBar.delegate = self
                 titleField.becomeFirstResponder()
                 
             // save button(save function soon going to assigned on viewWillappear)
@@ -97,29 +98,16 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
         self.liveCoordinates = userLocation.coordinate
     }
     
-    // tabBar of various attachments
-    func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
-
-        switch optionsTabBar.selectedItem {
-            
-        case self.optionsTabBar.items?[0]:
-
-            let contacVC = CNContactPickerViewController()
-            contacVC.delegate = self
-            self.present(contacVC, animated: true, completion: nil)
-            
-        case self.optionsTabBar.items?[1]:
-            pickImageFromCategories()
-        
-        case self.optionsTabBar.items?[2]:
-            audioPicker()
-            
-        default:
-            break
-        }
-    }
-
+   
     //Contact picker
+    @IBAction func pickContact(_ sender: UIBarButtonItem) {
+        let contacVC = CNContactPickerViewController()
+                      contacVC.delegate = self
+                      self.present(contacVC, animated: true, completion: nil)
+    }
+   
+
+    
     func contactPicker(_ picker: CNContactPickerViewController, didSelect contact: CNContact) {
 //        print(contact.phoneNumbers)
         let numbers = contact.phoneNumbers.first
@@ -136,12 +124,14 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
     }
     
     //media picker
-    func audioPicker() {
+    
+    @IBAction func pickAudio(_ sender: UIBarButtonItem) {
         let mediaPickerController = MPMediaPickerController(mediaTypes: .music)
-        mediaPickerController.delegate = self
-        mediaPickerController.prompt = "Select Audio"
-        present(mediaPickerController, animated: true, completion: nil)
+              mediaPickerController.delegate = self
+              mediaPickerController.prompt = "Select Audio"
+              present(mediaPickerController, animated: true, completion: nil)
     }
+ 
     
     func mediaPicker(_ mediaPicker: MPMediaPickerController,
                      didPickMediaItems mediaItemCollection: MPMediaItemCollection) {
@@ -156,46 +146,41 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
     func mediaPickerDidCancel(_ mediaPicker: MPMediaPickerController) {
         mediaPicker.dismiss(animated: true)
     }
+//    // pick image from actionSheet
+    @IBAction func pickImage(_ sender: UIBarButtonItem) {
+            self.imagePicker =  UIImagePickerController()
+            self.imagePicker.delegate = self
+                      
+            let alert = UIAlertController(title: "Alert", message: "Please connect to physical device", preferredStyle:                 UIAlertController.Style.alert)
 
-    
-    // pick image from actionSheet
-    func pickImageFromCategories() {
-        self.imagePicker =  UIImagePickerController()
-        self.imagePicker.delegate = self
-                  
-        let alert = UIAlertController(title: "Alert", message: "Please connect to physical device", preferredStyle:                 UIAlertController.Style.alert)
+            let ok = UIAlertAction(title: "OK", style: .default, handler: nil)
+                      alert.addAction(ok)
+                      
+            let actionSheet = UIAlertController(title: "Media", message: "Choose desired media type", preferredStyle: UIAlertController.Style.actionSheet)
 
-        let ok = UIAlertAction(title: "OK", style: .default, handler: nil)
-                  alert.addAction(ok)
-                  
-        let actionSheet = UIAlertController(title: "Media", message: "Choose desired media type", preferredStyle: UIAlertController.Style.actionSheet)
+            actionSheet.addAction(UIAlertAction(title: "Camera", style: UIAlertAction.Style.default, handler: { (UIAlertAction) in
 
-        actionSheet.addAction(UIAlertAction(title: "Camera", style: UIAlertAction.Style.default, handler: { (UIAlertAction) in
-
-        if UIImagePickerController.isSourceTypeAvailable(.camera){
-                                 
-                self.imagePicker.sourceType = .camera
-                self.imagePicker.allowsEditing = true
-                self.present(self.imagePicker, animated: true, completion: nil)
-        }else {
-                print("No Camera Available")
-                self.present(alert, animated: true, completion: nil)
-            }
-            
-        }))
-    actionSheet.addAction(UIAlertAction(title: "Gallery", style: UIAlertAction.Style.default, handler: { (UIAlertAction) in
-
-        self.imagePicker.sourceType = .photoLibrary
-        self.imagePicker.allowsEditing = true
-        self.present(self.imagePicker, animated: true, completion: nil)
+            if UIImagePickerController.isSourceTypeAvailable(.camera){
+                                     
+                    self.imagePicker.sourceType = .camera
+                    self.imagePicker.allowsEditing = true
+                    self.present(self.imagePicker, animated: true, completion: nil)
+            }else {
+                    print("No Camera Available")
+                    self.present(alert, animated: true, completion: nil)
+                }
                 
-        }))
-    self.present(actionSheet, animated: true, completion: nil)
-                  
+            }))
+        actionSheet.addAction(UIAlertAction(title: "Gallery", style: UIAlertAction.Style.default, handler: { (UIAlertAction) in
 
-                  
+            self.imagePicker.sourceType = .photoLibrary
+            self.imagePicker.allowsEditing = true
+            self.present(self.imagePicker, animated: true, completion: nil)
+                    
+            }))
+        self.present(actionSheet, animated: true, completion: nil)
     }
-  
+    
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         self.dismiss(animated: true, completion: nil)
     }
@@ -233,27 +218,27 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
         self.noteField.attributedText = fullString
        
     }
-   
-    //button for converting speech to text
-    @IBAction func speechToTextButton(_ sender: UIButton) {
-        
-        
-        
-        if audioEngine.isRunning {
-            self.recognitionTask?.finish()
-            audioEngine.inputNode.removeTap(onBus: 0)
-            self.request.endAudio()
+    
+       //button for converting speech to text
+    @IBAction func speechToTextButton(_ sender: UIBarButtonItem) {
+         
+                if audioEngine.isRunning {
+                    self.recognitionTask?.finish()
+                    audioEngine.inputNode.removeTap(onBus: 0)
+                    self.request.endAudio()
 
-            self.recognitionTask = nil
-            
-            self.audioEngine.stop()
-self.speechBtn.setImage(UIImage(systemName: "mic"), for: .normal)
-     
-        } else {
-                    self.recordAndRecognizeSpeech()
-            self.speechBtn.setImage(UIImage(systemName: "stop.fill"), for: .normal)
-               }
+                    self.recognitionTask = nil
+                    
+                    self.audioEngine.stop()
+                    self.speechBtn.image = UIImage(systemName: "mic")
+
+                } else {
+                            self.recordAndRecognizeSpeech()
+self.speechBtn.image = UIImage(systemName: "stop.fill")
+                       }
     }
+
+  
     
     func recordAndRecognizeSpeech(){
        let node = audioEngine.inputNode
