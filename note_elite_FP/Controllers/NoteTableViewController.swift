@@ -8,8 +8,20 @@
 
 import UIKit
 import MapKit
+import CoreData
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class NoteTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    
+    
+    var notes = [Note]()
+    var selectedFolder: Folder? {
+        //observer for checking filled or not
+        didSet {
+//            loadNotes()
+        }
+    }
+
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     @IBOutlet weak var label: UILabel!
     
@@ -23,10 +35,24 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         notesTable.delegate = self
         notesTable.dataSource = self
-        title = "Notes"
+//        title = "Notes"
     }
+    
+    
+//    func loadNotes() {
+//        let request: NSFetchRequest<Note> = Note.fetchRequest()
+//        let folderPredicate = NSPredicate(format: "parentFolder.name=%@", selectedFolder!.name!)
+//        request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
+//        request.predicate = folderPredicate
+//
+//        do {
+//            notes = try context.fetch(request)
+//        } catch {
+//            print("Error loading notes: \(error.localizedDescription)")
+//        }
+//    }
     @IBAction func addNote(_ sender: UIBarButtonItem) {
-        guard let vc = storyboard?.instantiateViewController(identifier: "new") as? NewNoteViewController else {
+        guard let vc = storyboard?.instantiateViewController(identifier: "newNoteViewController") as? NewNoteViewController else {
                   return
               }
               vc.title = "New Note"
