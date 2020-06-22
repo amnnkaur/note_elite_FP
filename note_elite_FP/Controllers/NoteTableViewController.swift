@@ -12,14 +12,17 @@ import CoreData
 
 class NoteTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    
+
+    var noteValue: String?
     var notes = [Note]()
     var selectedFolder: Folder? {
-        //observer for checking filled or not
-        didSet {
-//            loadNotes()
-        }
-    }
+          //observer for checking filled or not
+          didSet {
+              loadNotes()
+          }
+      }
+      
+    var editMode: Bool = false
 
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
@@ -68,6 +71,20 @@ class NoteTableViewController: UIViewController, UITableViewDelegate, UITableVie
             
               navigationController?.pushViewController(vc, animated: true)
     }
+    
+     func loadNotes() {
+               let request: NSFetchRequest<Note> = Note.fetchRequest()
+               let folderPredicate = NSPredicate(format: "parentFolder.name=%@", selectedFolder!.name!)
+               request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
+               request.predicate = folderPredicate
+               
+               do {
+                   notes = try context.fetch(request)
+               } catch {
+                   print("Error loading notes: \(error.localizedDescription)")
+               }
+    //        tableView.reloadData()
+           }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
          return models.count
