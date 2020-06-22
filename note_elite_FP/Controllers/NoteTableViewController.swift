@@ -62,23 +62,23 @@ class NoteTableViewController: UIViewController, UITableViewDelegate, UITableVie
 //            print("Error loading notes: \(error.localizedDescription)")
 //        }
 //    }
-    @IBAction func addNote(_ sender: UIBarButtonItem) {
-        guard let vc = storyboard?.instantiateViewController(identifier: "newNoteViewController") as? NewNoteViewController else {
-                  return
-              }
-              vc.title = "New Note"
-              vc.navigationItem.largeTitleDisplayMode = .never
-        
-                vc.completion = { noteTitle, note, storedCoordinates in
-                    self.navigationController?.popToRootViewController(animated: true)
-                    self.models.append((title: noteTitle, note: note, coordinates: storedCoordinates))
-//                    self.label.isHidden = true
-                    self.notesTable.isHidden = false
-                    self.notesTable.reloadData()
-        }
-            
-              navigationController?.pushViewController(vc, animated: true)
-    }
+//    @IBAction func addNote(_ sender: UIBarButtonItem) {
+//        guard let vc = storyboard?.instantiateViewController(identifier: "newNoteViewController") as? NewNoteViewController else {
+//                  return
+//              }
+//              vc.title = "New Note"
+//              vc.navigationItem.largeTitleDisplayMode = .never
+//        
+//                vc.completion = { noteTitle, note, storedCoordinates in
+//                    self.navigationController?.popToRootViewController(animated: true)
+//                    self.models.append((title: noteTitle, note: note, coordinates: storedCoordinates))
+////                    self.label.isHidden = true
+//                    self.notesTable.isHidden = false
+//                    self.notesTable.reloadData()
+//        }
+//            
+//              navigationController?.pushViewController(vc, animated: true)
+//    }
     
      func loadNotes() {
                let request: NSFetchRequest<Note> = Note.fetchRequest()
@@ -137,6 +137,9 @@ class NoteTableViewController: UIViewController, UITableViewDelegate, UITableVie
 //              vc.storedCoordinates = notes.coordinates
 //              navigationController?.pushViewController(vc, animated: true)
 //          }
+    
+  
+
 
         // Override to support editing the table view.
    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {

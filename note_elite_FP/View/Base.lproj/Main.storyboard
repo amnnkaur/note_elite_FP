@@ -100,6 +100,9 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="3D4-C0-iQy" kind="show" id="JdV-m0-R9t"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
@@ -464,6 +467,9 @@
             <point key="canvasLocation" x="817" y="901"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="eg5-fC-She"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="camera" catalog="system" width="128" height="96"/>
         <image name="ellipsis" catalog="system" width="128" height="37"/>
