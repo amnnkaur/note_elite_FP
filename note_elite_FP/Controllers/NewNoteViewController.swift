@@ -137,6 +137,13 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
 //
         
 //        self.present(innerAlert, animated: true, completion: nil)
+            
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let myAlert = storyboard.instantiateViewController(withIdentifier: "recordVC") as! RecordViewController
+            myAlert.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
+            myAlert.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
+            self.present(myAlert, animated: true, completion: nil)
+            
                         
         }))
         
