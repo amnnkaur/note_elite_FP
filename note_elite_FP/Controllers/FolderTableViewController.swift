@@ -33,6 +33,10 @@ class FolderTableViewController: UITableViewController {
                 loadFolder()
             
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+           tableView.reloadData()
+       }
 
     
     //MARK: Table View Data Source
@@ -124,7 +128,7 @@ class FolderTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
         let destination = segue.destination as! NoteTableViewController
         if let indexPath = tableView.indexPathForSelectedRow{
-//                  destination.selectedFolder = folders[indexPath.row]
+                  destination.selectedFolder = folders[indexPath.row]
               }
     }
     

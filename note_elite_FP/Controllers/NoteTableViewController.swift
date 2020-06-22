@@ -229,24 +229,36 @@ class NoteTableViewController: UIViewController, UITableViewDelegate, UITableVie
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
         
+        if let destination = segue.destination as? NewNoteViewController{
+            destination.delegate = self
+
+            if let cell =  sender as? UITableViewCell{
+                if let index = notesTable.indexPath(for: cell)?.row{
+                    destination.selectedNote = notes[index]
+                }
+            }
+        }
         
+        if let destination = segue.destination as? MoveToViewController{
+            if let indexPaths = notesTable.indexPathsForSelectedRows{
+                let rows = indexPaths.map {$0.row}
+                destination.selectedNotes = rows.map {notes[$0]}
+                         }
+        }
         
-//        if let destination = segue.destination as? NewNoteViewController{
-//            destination.delegate = self
-//
-//            if let cell =  sender as? UITableViewCell{
-//                if let index = notesTable.indexPath(for: cell)?.row{
-//                    destination.selectedNote = notes[index]
-//                }
-//            }
-//        }
+    }
+    
+    @IBAction func unwindToNoteTableVC(_ unwindSegue: UIStoryboardSegue) {
+//        let sourceViewController = unwindSegue.source
+        // Use data from the view controller which initiated the unwind segue
         
-//        if let destination = segue.destination as? MoveToViewController{
-//            if let indexPaths = tableView.indexPathsForSelectedRows{
-//                let rows = indexPaths.map {$0.row}
-//                destination.selectedNotes = rows.map {notes[$0]}
-//                         }
-//        }
-        
+        print("Unwind segue")
+              
+               saveNote()
+               loadNotes()
+               
+                self.notesTable.reloadData()
+               
+               notesTable.setEditing(false, animated: false)
     }
 }
