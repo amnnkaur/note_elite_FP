@@ -108,7 +108,11 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <toolbarItems>
-                        <barButtonItem title="Item" image="trash" catalog="system" id="AHR-uI-nH0"/>
+                        <barButtonItem title="Item" image="trash" catalog="system" id="AHR-uI-nH0">
+                            <connections>
+                                <action selector="deleteNotes:" destination="BYZ-38-t0r" id="0TJ-gk-30e"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="Pn4-sk-zbh"/>
                         <barButtonItem title="Item" image="square.and.arrow.up" catalog="system" id="0bt-ar-qbf"/>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="iJg-l2-eVK"/>
@@ -118,7 +122,13 @@
                             </connections>
                         </barButtonItem>
                     </toolbarItems>
-                    <navigationItem key="navigationItem" title="Notes" id="t9l-85-wyI"/>
+                    <navigationItem key="navigationItem" title="Notes" id="t9l-85-wyI">
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="ellipsis" catalog="system" id="rmN-aq-fCB">
+                            <connections>
+                                <action selector="editBtnPressed:" destination="BYZ-38-t0r" id="EIq-rc-GNa"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="moveToBtn" destination="0bt-ar-qbf" id="kje-9O-Lp5"/>
@@ -370,6 +380,7 @@
     </scenes>
     <resources>
         <image name="camera" catalog="system" width="128" height="96"/>
+        <image name="ellipsis" catalog="system" width="128" height="37"/>
         <image name="folder.badge.plus" catalog="system" width="128" height="86"/>
         <image name="mic" catalog="system" width="108" height="128"/>
         <image name="mic.circle" catalog="system" width="128" height="121"/>

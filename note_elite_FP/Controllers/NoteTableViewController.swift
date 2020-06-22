@@ -193,7 +193,27 @@ class NoteTableViewController: UIViewController, UITableViewDelegate, UITableVie
             saveNote()
             loadNotes()
         }
-
+    @IBAction func deleteNotes(_ sender: UIBarButtonItem) {
+        if let indexPaths = notesTable.indexPathsForSelectedRows{
+                  let rows = (indexPaths.map {$0.row}).sorted(by: >)
+                  let _  = rows.map{deleteNote(note: notes[$0])}
+                  let _ = rows.map {notes.remove(at: $0)}
+                  
+                  notesTable.reloadData()
+                  
+                  saveNote()
+              }
+    }
+    
+    @IBAction func editBtnPressed(_ sender: UIBarButtonItem) {
+        
+            editMode = !editMode
+            notesTable.setEditing(editMode ? true: false, animated: true)
+            trashBtn.isEnabled = !trashBtn.isEnabled
+            moveToBtn.isEnabled = !moveToBtn.isEnabled
+    }
+    
+    
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
            // if editemode is true should make it true
            
