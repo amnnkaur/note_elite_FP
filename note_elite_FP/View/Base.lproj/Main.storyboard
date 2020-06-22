@@ -108,7 +108,10 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <toolbarItems>
+                        <barButtonItem title="Item" image="trash" catalog="system" id="AHR-uI-nH0"/>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="Pn4-sk-zbh"/>
+                        <barButtonItem title="Item" image="square.and.arrow.up" catalog="system" id="0bt-ar-qbf"/>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="iJg-l2-eVK"/>
                         <barButtonItem title="Item" image="pencil.and.ellipsis.rectangle" catalog="system" id="Ita-7f-eUJ">
                             <connections>
                                 <segue destination="3D4-C0-iQy" kind="show" id="eg5-fC-She"/>
@@ -118,7 +121,9 @@
                     <navigationItem key="navigationItem" title="Notes" id="t9l-85-wyI"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="moveToBtn" destination="0bt-ar-qbf" id="kje-9O-Lp5"/>
                         <outlet property="notesTable" destination="U9Q-sz-dju" id="JAO-OV-T2b"/>
+                        <outlet property="trashBtn" destination="AHR-uI-nH0" id="Dty-1c-M5i"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -370,5 +375,7 @@
         <image name="mic.circle" catalog="system" width="128" height="121"/>
         <image name="pencil.and.ellipsis.rectangle" catalog="system" width="128" height="81"/>
         <image name="person" catalog="system" width="128" height="117"/>
+        <image name="square.and.arrow.up" catalog="system" width="115" height="128"/>
+        <image name="trash" catalog="system" width="121" height="128"/>
     </resources>
 </document>
