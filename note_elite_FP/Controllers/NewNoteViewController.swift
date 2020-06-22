@@ -33,10 +33,24 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
     let request = SFSpeechAudioBufferRecognitionRequest()
     var recognitionTask: SFSpeechRecognitionTask?
     
+    var selectedNote: Note? {
+            didSet{
+                // write code later
+                editMode = true
+            }
+        }
+       
+    var editMode: Bool = false
+        
+    // delegate for noteTable VC
+    var delegate: NoteTableViewController?
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
        intials()
+        noteField.text = selectedNote?.title
 
     }
     
@@ -73,15 +87,20 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
     
     // onView will disapper save fucntion rolls in
     override func viewWillDisappear(_ animated: Bool) {
-        self.didTapSave()
-    }
-
-    // save text
-    @objc func didTapSave() {
-        if let text = titleField.text, !text.isEmpty, !noteField.text.isEmpty {
-            completion?(text, self.noteField.attributedText, self.liveCoordinates ?? CLLocationCoordinate2D())
+//        self.didTapSave()
+        if editMode{
+            delegate!.deleteNote(note: selectedNote!)
         }
+        delegate?.updateNote(with: noteField.text)
     }
+    
+
+//    // save text
+//    @objc func didTapSave() {
+//        if let text = titleField.text, !text.isEmpty, !noteField.text.isEmpty {
+//            completion?(text, self.noteField.attributedText, self.liveCoordinates ?? CLLocationCoordinate2D())
+//        }
+//    }
     
     // objective C function for current location
     @objc func liveLocation(){
