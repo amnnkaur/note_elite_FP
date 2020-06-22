@@ -220,6 +220,81 @@
             </objects>
             <point key="canvasLocation" x="1855.072463768116" y="126.5625"/>
         </scene>
+        <!--Record View Controller-->
+        <scene sceneID="W4I-db-qzf">
+            <objects>
+                <viewController storyboardIdentifier="recordVC" id="Tx7-wH-2if" customClass="RecordViewController" customModule="note_elite_FP" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="YKI-iK-do6">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Record Audio" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jPm-UO-ojZ">
+                                <rect key="frame" x="126" y="89" width="162" height="33.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="28"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="133" translatesAutoresizingMaskIntoConstraints="NO" id="XtR-ep-6sD">
+                                <rect key="frame" x="78.5" y="230" width="257" height="36"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="np5-oL-OVa">
+                                        <rect key="frame" x="0.0" y="0.0" width="62" height="36"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <state key="normal" title="Record"/>
+                                        <connections>
+                                            <action selector="start_recording:" destination="Tx7-wH-2if" eventType="touchUpInside" id="red-w9-QaW"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IRz-nm-e9s">
+                                        <rect key="frame" x="195" y="0.0" width="62" height="36"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <state key="normal" title="Play"/>
+                                        <connections>
+                                            <action selector="play_recording:" destination="Tx7-wH-2if" eventType="touchUpInside" id="ug4-8l-zbW"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jcm-Pf-RYc">
+                                <rect key="frame" x="187" y="321" width="43" height="42"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                <state key="normal" title="Use"/>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MSO-wp-vDy">
+                                <rect key="frame" x="143" y="153" width="129" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="SME-uW-KX5" firstAttribute="trailing" secondItem="MSO-wp-vDy" secondAttribute="trailing" constant="142" id="Ik6-iv-zxe"/>
+                            <constraint firstItem="jPm-UO-ojZ" firstAttribute="top" secondItem="SME-uW-KX5" secondAttribute="top" constant="45" id="Iz1-Gc-JJG"/>
+                            <constraint firstItem="Jcm-Pf-RYc" firstAttribute="leading" secondItem="SME-uW-KX5" secondAttribute="leading" constant="187" id="Jjm-Tn-fFP"/>
+                            <constraint firstItem="SME-uW-KX5" firstAttribute="bottom" secondItem="Jcm-Pf-RYc" secondAttribute="bottom" constant="499" id="MTm-5Z-dZV"/>
+                            <constraint firstItem="SME-uW-KX5" firstAttribute="bottom" secondItem="XtR-ep-6sD" secondAttribute="bottom" constant="596" id="Mcs-WY-AU3"/>
+                            <constraint firstItem="SME-uW-KX5" firstAttribute="trailing" secondItem="Jcm-Pf-RYc" secondAttribute="trailing" constant="184" id="ano-2i-Mxw"/>
+                            <constraint firstItem="jPm-UO-ojZ" firstAttribute="leading" secondItem="SME-uW-KX5" secondAttribute="leading" constant="126" id="dlX-Fv-XUj"/>
+                            <constraint firstItem="XtR-ep-6sD" firstAttribute="leading" secondItem="SME-uW-KX5" secondAttribute="leading" constant="78.5" id="iiR-3H-yGA"/>
+                            <constraint firstItem="SME-uW-KX5" firstAttribute="trailing" secondItem="jPm-UO-ojZ" secondAttribute="trailing" constant="126" id="j0K-eg-BKU"/>
+                            <constraint firstItem="Jcm-Pf-RYc" firstAttribute="top" secondItem="XtR-ep-6sD" secondAttribute="bottom" constant="55" id="jpz-Vq-bbX"/>
+                            <constraint firstItem="MSO-wp-vDy" firstAttribute="leading" secondItem="SME-uW-KX5" secondAttribute="leading" constant="143" id="nZ9-sW-7SL"/>
+                            <constraint firstItem="SME-uW-KX5" firstAttribute="trailing" secondItem="XtR-ep-6sD" secondAttribute="trailing" constant="78.5" id="qlB-GA-ozY"/>
+                            <constraint firstItem="MSO-wp-vDy" firstAttribute="top" secondItem="jPm-UO-ojZ" secondAttribute="bottom" constant="30.5" id="x0X-hn-xe8"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="SME-uW-KX5"/>
+                    </view>
+                    <connections>
+                        <outlet property="play_btn_ref" destination="IRz-nm-e9s" id="jNQ-sy-5hv"/>
+                        <outlet property="record_btn_ref" destination="np5-oL-OVa" id="Xu8-UN-Rx6"/>
+                        <outlet property="recordingTimeLabel" destination="MSO-wp-vDy" id="1Tl-D1-TBh"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ZBZ-rc-s04" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2371.0144927536235" y="854.46428571428567"/>
+        </scene>
         <!--Note Detail View Controller-->
         <scene sceneID="7pD-ru-xo8">
             <objects>
