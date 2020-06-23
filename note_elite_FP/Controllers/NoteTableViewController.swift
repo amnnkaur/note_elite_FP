@@ -40,6 +40,7 @@ class NoteTableViewController: UIViewController, UITableViewDelegate, UITableVie
         
         notesTable.delegate = self
         notesTable.dataSource = self
+      
 //        title = "Notes"
     }
     
@@ -79,6 +80,7 @@ class NoteTableViewController: UIViewController, UITableViewDelegate, UITableVie
 //            
 //              navigationController?.pushViewController(vc, animated: true)
 //    }
+
     
      func loadNotes() {
                let request: NSFetchRequest<Note> = Note.fetchRequest()
@@ -113,7 +115,7 @@ class NoteTableViewController: UIViewController, UITableViewDelegate, UITableVie
               
               let note = notes[indexPath.row]
               cell.textLabel?.text = note.title
-              
+        cell.detailTextLabel?.text = note.dateTime
               let backgroundView = UIView()
               backgroundView.backgroundColor = .darkGray
               cell.selectedBackgroundView = backgroundView
@@ -187,10 +189,11 @@ class NoteTableViewController: UIViewController, UITableViewDelegate, UITableVie
           }
       }
      //MARK: update note
-        func updateNote(with title: String) {
+    func updateNote(with title: String, date: String) {
             notes = []
             let newNote = Note(context: context)
             newNote.title = title
+        newNote.dateTime = date
             newNote.parentFolder = selectedFolder
     //        notes.append(newNote)
             saveNote()
@@ -264,4 +267,11 @@ class NoteTableViewController: UIViewController, UITableViewDelegate, UITableVie
                
                notesTable.setEditing(false, animated: false)
     }
+}
+extension Date {
+func getFormattedDate(format: String) -> String {
+     let dateformat = DateFormatter()
+     dateformat.dateFormat = format
+     return dateformat.string(from: self)
+ }
 }

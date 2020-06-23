@@ -24,6 +24,8 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
     var locationManager = CLLocationManager()
     var imagePicker: UIImagePickerController!
     var liveCoordinates: CLLocationCoordinate2D?
+    let date : Date = Date()
+    let dateFormatter = DateFormatter()
     
     public var completion: ((String, NSAttributedString, CLLocationCoordinate2D) -> Void)?
     
@@ -51,7 +53,7 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
         
        intials()
         noteField.text = selectedNote?.title
-
+        dateFormatter.dateFormat = "MMM d, h:mm a"
     }
     
     func intials() {
@@ -91,7 +93,7 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
         if editMode{
             delegate!.deleteNote(note: selectedNote!)
         }
-        delegate?.updateNote(with: noteField.text)
+        delegate?.updateNote(with: noteField.text, date: dateFormatter.string(from: date))
     }
     
 
