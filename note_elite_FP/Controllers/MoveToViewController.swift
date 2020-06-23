@@ -35,6 +35,9 @@ class MoveToViewController: UIViewController {
            
        let request: NSFetchRequest<Folder> = Folder.fetchRequest()
         
+        let foldersPredicate = NSPredicate(format: "NOT name MATCHES %@", selectedNotes?[0].parentFolder?.name ?? "")
+        request.predicate = foldersPredicate
+        
         do {
                     folders = try context.fetch(request)
         //            print(folders.count)

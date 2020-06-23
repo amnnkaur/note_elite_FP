@@ -21,6 +21,7 @@
 		8EC4D6E0249C1D2E003D14AF /* LocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC4D6DF249C1D2E003D14AF /* LocationViewController.swift */; };
 		8EC4D706249D4BA5003D14AF /* note_elite_FP.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8EC4D704249D4BA5003D14AF /* note_elite_FP.xcdatamodeld */; };
 		8EC4D74F249F166E003D14AF /* FolderTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC4D74E249F166E003D14AF /* FolderTableViewController.swift */; };
+		8ED466EA24A190110055E560 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED466E924A190110055E560 /* Date+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,7 @@
 		8EC4D6DF249C1D2E003D14AF /* LocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationViewController.swift; sourceTree = "<group>"; };
 		8EC4D705249D4BA5003D14AF /* note_elite_FP.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = note_elite_FP.xcdatamodel; sourceTree = "<group>"; };
 		8EC4D74E249F166E003D14AF /* FolderTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderTableViewController.swift; sourceTree = "<group>"; };
+		8ED466E924A190110055E560 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +74,7 @@
 		2A170C0524948B5B00CD37DB /* note_elite_FP */ = {
 			isa = PBXGroup;
 			children = (
+				8ED466E824A18FBB0055E560 /* Extensions */,
 				8EC4D74D249F0FB5003D14AF /* Model */,
 				8EC4D74C249F0F96003D14AF /* View */,
 				8EC4D6DC2497F9A0003D14AF /* Controllers */,
@@ -113,6 +116,14 @@
 				8EC4D704249D4BA5003D14AF /* note_elite_FP.xcdatamodeld */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		8ED466E824A18FBB0055E560 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				8ED466E924A190110055E560 /* Date+Extension.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -188,6 +199,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2A170C0B24948B5B00CD37DB /* NoteTableViewController.swift in Sources */,
+				8ED466EA24A190110055E560 /* Date+Extension.swift in Sources */,
 				2ADB64D724968EA000EC55F9 /* NewNoteViewController.swift in Sources */,
 				2ADB64D92496910200EC55F9 /* NoteDetailViewController.swift in Sources */,
 				2A3D840C24A02DAE00DCF808 /* RecordViewController.swift in Sources */,

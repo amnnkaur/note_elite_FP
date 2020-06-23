@@ -28,7 +28,10 @@ class NoteTableViewController: UIViewController, UITableViewDelegate, UITableVie
 
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
-    @IBOutlet weak var label: UILabel!
+//    @IBOutlet weak var label: UILabel!
+    
+    let searchController = UISearchController()
+    
     
     @IBOutlet weak var notesTable: UITableView!
     
@@ -40,8 +43,9 @@ class NoteTableViewController: UIViewController, UITableViewDelegate, UITableVie
         
         notesTable.delegate = self
         notesTable.dataSource = self
+        
+        notesSearchBar()
       
-//        title = "Notes"
     }
     
     //MARK: viewWillAppear
@@ -51,50 +55,27 @@ class NoteTableViewController: UIViewController, UITableViewDelegate, UITableVie
         
     }
     
-//    func loadNotes() {
-//        let request: NSFetchRequest<Note> = Note.fetchRequest()
-//        let folderPredicate = NSPredicate(format: "parentFolder.name=%@", selectedFolder!.name!)
-//        request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
-//        request.predicate = folderPredicate
-//
-//        do {
-//            notes = try context.fetch(request)
-//        } catch {
-//            print("Error loading notes: \(error.localizedDescription)")
-//        }
-//    }
-//    @IBAction func addNote(_ sender: UIBarButtonItem) {
-//        guard let vc = storyboard?.instantiateViewController(identifier: "newNoteViewController") as? NewNoteViewController else {
-//                  return
-//              }
-//              vc.title = "New Note"
-//              vc.navigationItem.largeTitleDisplayMode = .never
-//        
-//                vc.completion = { noteTitle, note, storedCoordinates in
-//                    self.navigationController?.popToRootViewController(animated: true)
-//                    self.models.append((title: noteTitle, note: note, coordinates: storedCoordinates))
-////                    self.label.isHidden = true
-//                    self.notesTable.isHidden = false
-//                    self.notesTable.reloadData()
-//        }
-//            
-//              navigationController?.pushViewController(vc, animated: true)
-//    }
-
     
-     func loadNotes() {
-               let request: NSFetchRequest<Note> = Note.fetchRequest()
+    func loadNotes(with request: NSFetchRequest<Note> = Note.fetchRequest(), predicate: NSPredicate? = nil) {
+//               let request: NSFetchRequest<Note> = Note.fetchRequest()
                let folderPredicate = NSPredicate(format: "parentFolder.name=%@", selectedFolder!.name!)
                request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
-               request.predicate = folderPredicate
+//               request.predicate = folderPredicate
+        
+        if let additionalPredicate = predicate{
+            request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [folderPredicate, additionalPredicate])
+        } else {
+            request.predicate = folderPredicate
+        }
                
                do {
                    notes = try context.fetch(request)
                } catch {
                    print("Error loading notes: \(error.localizedDescription)")
                }
-    //        tableView.reloadData()
-           }
+//        self.notesTable.reloadData()
+        
+    }
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -123,32 +104,11 @@ class NoteTableViewController: UIViewController, UITableViewDelegate, UITableVie
               return cell
     }
     
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        tableView.deselectRow(at: indexPath, animated: true)
-//
-//              let note = notes[indexPath.row]
-//
-//              // Show note controller
-//              guard let vc = storyboard?.instantiateViewController(identifier: "note") as? NoteDetailViewController else {
-//                  return
-//              }
-//              vc.navigationItem.largeTitleDisplayMode = .never
-//              vc.title = "Note"
-//              vc.noteTitle = notes.title
-//              vc.note = notes.note
-//              vc.storedCoordinates = notes.coordinates
-//              navigationController?.pushViewController(vc, animated: true)
-//          }
-    
-  
-
 
         // Override to support editing the table view.
    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
             
-//            var newArray = self.favoritePlaces!
-//
-//            newArray.remove(at: indexPath.row)
+
             
             if editingStyle == .delete {
                 let alert = UIAlertController(title: "Alert", message: "Are you sure you want to delete this?", preferredStyle: .alert)
@@ -259,7 +219,6 @@ class NoteTableViewController: UIViewController, UITableViewDelegate, UITableVie
 //        let sourceViewController = unwindSegue.source
         // Use data from the view controller which initiated the unwind segue
         
-        print("Unwind segue")
               
                saveNote()
                loadNotes()
@@ -268,11 +227,30 @@ class NoteTableViewController: UIViewController, UITableViewDelegate, UITableVie
                
                notesTable.setEditing(false, animated: false)
     }
+    
+    func notesSearchBar(){
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search Notes"
+        navigationItem.searchController = searchController
+        searchController.searchBar.delegate = self
+        definesPresentationContext = true
+    }
+    
 }
-extension Date {
-func getFormattedDate(format: String) -> String {
-     let dateformat = DateFormatter()
-     dateformat.dateFormat = format
-     return dateformat.string(from: self)
- }
+
+extension NoteTableViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        let predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)
+        loadNotes(predicate: predicate)
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchBar.text?.count == 0{
+            loadNotes()
+            
+            DispatchQueue.main.async {
+                searchBar.resignFirstResponder()
+            }
+        }
+    }
 }
