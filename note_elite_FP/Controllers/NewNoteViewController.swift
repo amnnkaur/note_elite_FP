@@ -52,7 +52,8 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
         super.viewDidLoad()
         
        intials()
-        noteField.text = selectedNote?.title
+        titleField.text = selectedNote?.title
+        noteField.text = selectedNote?.noteText
         dateFormatter.dateFormat = "MMM d, h:mm a"
     }
     
@@ -93,7 +94,7 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
         if editMode{
             delegate!.deleteNote(note: selectedNote!)
         }
-        delegate?.updateNote(with: noteField.text, date: dateFormatter.string(from: date))
+        delegate?.updateNote(with: titleField.text ?? "No Title" ,text: noteField.text ,date: dateFormatter.string(from: date))
     }
     
 

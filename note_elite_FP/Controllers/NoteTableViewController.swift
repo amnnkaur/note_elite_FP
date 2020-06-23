@@ -189,11 +189,12 @@ class NoteTableViewController: UIViewController, UITableViewDelegate, UITableVie
           }
       }
      //MARK: update note
-    func updateNote(with title: String, date: String) {
+    func updateNote(with title: String ,text: String ,date: String) {
             notes = []
             let newNote = Note(context: context)
             newNote.title = title
-        newNote.dateTime = date
+            newNote.noteText = text
+            newNote.dateTime = date
             newNote.parentFolder = selectedFolder
     //        notes.append(newNote)
             saveNote()
