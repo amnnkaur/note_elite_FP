@@ -93,12 +93,13 @@ class NoteTableViewController: UIViewController, UITableViewDelegate, UITableVie
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
           let cell = tableView.dequeueReusableCell(withIdentifier: "noteCell", for: indexPath)
               
-              let note = notes[indexPath.row]
-              cell.textLabel?.text = note.title
-        cell.detailTextLabel?.text = note.dateTime
-              let backgroundView = UIView()
-              backgroundView.backgroundColor = .darkGray
-              cell.selectedBackgroundView = backgroundView
+            let note = notes[indexPath.row]
+            cell.textLabel?.text = note.title
+            cell.detailTextLabel?.text = " \(note.dateTime!)"
+        cell.detailTextLabel?.textColor = .systemYellow
+            let backgroundView = UIView()
+            backgroundView.backgroundColor = .darkGray
+            cell.selectedBackgroundView = backgroundView
 
               return cell
     }
@@ -150,7 +151,6 @@ class NoteTableViewController: UIViewController, UITableViewDelegate, UITableVie
      //MARK: update note
     func updateNote(with title: String ,text: NSAttributedString ,date: String) {
             notes = []
-        print("Attributed text: \(text)")
             let newNote = Note(context: context)
             newNote.title = title
             newNote.noteText = text

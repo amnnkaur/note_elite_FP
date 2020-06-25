@@ -52,8 +52,6 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
         super.viewDidLoad()
         
        intials()
-          print("Seleted note: \(selectedNote?.title)")
-        print("Seleted note: \(selectedNote?.noteText)")
         titleField.text = selectedNote?.title
         noteField.attributedText = selectedNote?.noteText
         dateFormatter.dateFormat = "MMM d, h:mm a"
@@ -70,7 +68,7 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
             // save button(save function soon going to assigned on viewWillappear)
             // navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(didTapSave))
                     
-                self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "location"), style: .done, target: self, action: #selector(liveLocation))
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "location"), style: .done, target: self, action: #selector(liveLocation))
                 
             // hide keyboard by swiping down
                 self.hideKeyboardWhenTappedAround()
@@ -127,7 +125,19 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
         let numbers = contact.phoneNumbers.first
         let firstName = contact.givenName
         let lastName = contact.familyName
-        self.noteField.text += "\nName: \(firstName) \(lastName)\nContact No. \((numbers?.value)?.stringValue ?? "")"
+        
+         self.noteField.text += "\nName: \(firstName) \(lastName)\nContact No. \((numbers?.value)?.stringValue ?? "")"
+        
+        let fullString = NSMutableAttributedString()
+        // guard the variable from uncaught exception
+        guard let alreadyPresentString = self.noteField.attributedText else { return }
+
+        fullString.append(alreadyPresentString)
+           
+        // draw the result in a text area
+        self.noteField.attributedText = fullString
+            
+       
     }
 
     func contactPickerDidCancel(_ picker: CNContactPickerViewController) {

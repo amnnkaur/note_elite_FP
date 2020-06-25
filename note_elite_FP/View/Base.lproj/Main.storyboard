@@ -470,6 +470,7 @@
     <inferredMetricsTieBreakers>
         <segue reference="eg5-fC-She"/>
     </inferredMetricsTieBreakers>
+    <color key="tintColor" red="0.088881986590000003" green="0.21694519349999999" blue="0.26583433969999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
     <resources>
         <image name="camera" catalog="system" width="128" height="96"/>
         <image name="ellipsis" catalog="system" width="128" height="37"/>
