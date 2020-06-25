@@ -28,7 +28,6 @@ class NoteTableViewController: UIViewController, UITableViewDelegate, UITableVie
 
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
-//    @IBOutlet weak var label: UILabel!
     
     let searchController = UISearchController()
     
@@ -149,14 +148,14 @@ class NoteTableViewController: UIViewController, UITableViewDelegate, UITableVie
           }
       }
      //MARK: update note
-    func updateNote(with title: String ,text: String ,date: String) {
+    func updateNote(with title: String ,text: NSAttributedString ,date: String) {
             notes = []
+        print("Attributed text: \(text)")
             let newNote = Note(context: context)
             newNote.title = title
             newNote.noteText = text
             newNote.dateTime = date
             newNote.parentFolder = selectedFolder
-    //        notes.append(newNote)
             saveNote()
             loadNotes()
         }
@@ -216,16 +215,12 @@ class NoteTableViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     @IBAction func unwindToNoteTableVC(_ unwindSegue: UIStoryboardSegue) {
-//        let sourceViewController = unwindSegue.source
-        // Use data from the view controller which initiated the unwind segue
-        
-              
-               saveNote()
-               loadNotes()
+            saveNote()
+            loadNotes()
                
-                self.notesTable.reloadData()
+            self.notesTable.reloadData()
                
-               notesTable.setEditing(false, animated: false)
+            notesTable.setEditing(false, animated: false)
     }
     
     func notesSearchBar(){

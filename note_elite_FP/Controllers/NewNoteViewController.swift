@@ -17,7 +17,7 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
 
     @IBOutlet weak var titleField: UITextField!
     @IBOutlet weak var noteField: UITextView!
-    @IBOutlet weak var optionsTabBar: UITabBar!
+//    @IBOutlet weak var optionsTabBar: UITabBar!
    
     @IBOutlet weak var speechBtn: UIBarButtonItem!
     
@@ -27,7 +27,7 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
     let date : Date = Date()
     let dateFormatter = DateFormatter()
     
-    public var completion: ((String, NSAttributedString, CLLocationCoordinate2D) -> Void)?
+//    public var completion: ((String, NSAttributedString, CLLocationCoordinate2D) -> Void)?
     
     // STT variables
     let audioEngine = AVAudioEngine()
@@ -52,8 +52,10 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
         super.viewDidLoad()
         
        intials()
+          print("Seleted note: \(selectedNote?.title)")
+        print("Seleted note: \(selectedNote?.noteText)")
         titleField.text = selectedNote?.title
-        noteField.text = selectedNote?.noteText
+        noteField.attributedText = selectedNote?.noteText
         dateFormatter.dateFormat = "MMM d, h:mm a"
     }
     
@@ -90,20 +92,11 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
     
     // onView will disapper save fucntion rolls in
     override func viewWillDisappear(_ animated: Bool) {
-//        self.didTapSave()
         if editMode{
             delegate!.deleteNote(note: selectedNote!)
         }
-        delegate?.updateNote(with: titleField.text ?? "No Title" ,text: noteField.text ,date: dateFormatter.string(from: date))
+        delegate?.updateNote(with: self.titleField.text ?? "No Title" ,text: self.noteField.attributedText ,date: dateFormatter.string(from: date))
     }
-    
-
-//    // save text
-//    @objc func didTapSave() {
-//        if let text = titleField.text, !text.isEmpty, !noteField.text.isEmpty {
-//            completion?(text, self.noteField.attributedText, self.liveCoordinates ?? CLLocationCoordinate2D())
-//        }
-//    }
     
     // objective C function for current location
     @objc func liveLocation(){
@@ -131,14 +124,10 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
 
     
     func contactPicker(_ picker: CNContactPickerViewController, didSelect contact: CNContact) {
-//        print(contact.phoneNumbers)
         let numbers = contact.phoneNumbers.first
-//        print((numbers?.value)?.stringValue ?? "")
         let firstName = contact.givenName
         let lastName = contact.familyName
-//        print(name)
-//        self.lblNumber.text = " Contact No. \((numbers?.value)?.stringValue ?? "")"
-        self.noteField.text = " Name: \(firstName) \(lastName)  Contact No. \((numbers?.value)?.stringValue ?? "")"
+        self.noteField.text += "\nName: \(firstName) \(lastName)\nContact No. \((numbers?.value)?.stringValue ?? "")"
     }
 
     func contactPickerDidCancel(_ picker: CNContactPickerViewController) {
@@ -153,13 +142,6 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
         alert.addAction(UIAlertAction(title: "Record", style: .default, handler: { (UIAlertAction) in
             print("record")
             
-//        let innerAlert = UIAlertController(title: "Start recording", message: "", preferredStyle: .alert)
-//        innerAlert.addAction(UIKit.UIAlertAction(title: "Record", style: .default, handler:nil))
-//        innerAlert.addAction(UIKit.UIAlertAction(title: "Stop", style: .default, handler:nil))
-//
-        
-//        self.present(innerAlert, animated: true, completion: nil)
-            
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let myAlert = storyboard.instantiateViewController(withIdentifier: "recordVC") as! RecordViewController
             myAlert.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
@@ -170,7 +152,6 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
         }))
         
         alert.addAction(UIAlertAction(title: "Choose from Files", style: .default, handler: { (UIAlertAction) in
-//            print("select")
             let mediaPickerController = MPMediaPickerController(mediaTypes: .anyAudio)
             mediaPickerController.delegate = self
             mediaPickerController.prompt = "Select Audio"
@@ -281,11 +262,12 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
                     
                     self.audioEngine.stop()
                     self.speechBtn.image = UIImage(systemName: "mic")
-
-                } else {
-                            self.recordAndRecognizeSpeech()
-self.speechBtn.image = UIImage(systemName: "stop.fill")
-                       }
+            }else
+                {
+                    self.recordAndRecognizeSpeech()
+                    self.speechBtn.image = UIImage(systemName: "stop.fill")
+                    self.noteField.text = "Speak now!!"
+            }
     }
 
   
@@ -311,17 +293,19 @@ self.speechBtn.image = UIImage(systemName: "stop.fill")
            if !myRecognizer.isAvailable {
                return
            }
-           
+        
            recognitionTask = speechRecognizer?.recognitionTask(with: request, resultHandler: { (result, error) in
                if let result = result {
                    let bestString = result.bestTranscription.formattedString
                 
                 self.noteField.text = bestString
-
+                
                } else if let error =  error{
                    print(error)
                }
+          
            })
+       
        }
 
     // if availabity of speech recognizer did change
