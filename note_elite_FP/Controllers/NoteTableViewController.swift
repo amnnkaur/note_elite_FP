@@ -73,7 +73,7 @@ class NoteTableViewController: UIViewController, UITableViewDelegate, UITableVie
                } catch {
                    print("Error loading notes: \(error.localizedDescription)")
                }
-//        self.notesTable.reloadData()
+        notesTable?.reloadData()
         
     }
     
@@ -231,6 +231,7 @@ class NoteTableViewController: UIViewController, UITableViewDelegate, UITableVie
     func notesSearchBar(){
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search Notes"
+        searchController.searchBar.scopeButtonTitles = ["Title", "Notes"]
         navigationItem.searchController = searchController
         searchController.searchBar.delegate = self
         definesPresentationContext = true
@@ -238,19 +239,26 @@ class NoteTableViewController: UIViewController, UITableViewDelegate, UITableVie
     
 }
 
-extension NoteTableViewController: UISearchBarDelegate {
+extension NoteTableViewController: UISearchBarDelegate, UISearchDisplayDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        let predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)
-        loadNotes(predicate: predicate)
+       
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        if searchBar.text?.count == 0{
-            loadNotes()
-            
-            DispatchQueue.main.async {
-                searchBar.resignFirstResponder()
-            }
-        }
+      if searchText != ""{
+                 if searchController.searchBar.selectedScopeButtonIndex == 0{
+                     var titlePredicate: NSPredicate = NSPredicate()
+                     titlePredicate = NSPredicate(format: "title CONTAINS[cd] '\(searchText)'")
+                     loadNotes(predicate: titlePredicate)
+                 }else if searchController.searchBar.selectedScopeButtonIndex == 1 {
+                     var descriptionPredicate: NSPredicate = NSPredicate()
+                     descriptionPredicate = NSPredicate(format: "noteText CONTAINS[cd] '\(searchText)'")
+                     loadNotes(predicate: descriptionPredicate)
+                 }
+                
+             }
+             else{
+                 loadNotes()
+             }
     }
 }
