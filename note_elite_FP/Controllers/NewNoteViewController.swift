@@ -12,12 +12,13 @@ import CoreGraphics
 import MapKit
 import ContactsUI
 import MediaPlayer
+import AVFoundation
 
-class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITabBarDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, CLLocationManagerDelegate, CNContactPickerDelegate, MPMediaPickerControllerDelegate {
+class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITabBarDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, CLLocationManagerDelegate, CNContactPickerDelegate, MPMediaPickerControllerDelegate, AVAudioPlayerDelegate {
 
     @IBOutlet weak var titleField: UITextField!
     @IBOutlet weak var noteField: UITextView!
-//    @IBOutlet weak var optionsTabBar: UITabBar!
+
    
     @IBOutlet weak var speechBtn: UIBarButtonItem!
     
@@ -26,14 +27,18 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
     var liveCoordinates: CLLocationCoordinate2D?
     let date : Date = Date()
     let dateFormatter = DateFormatter()
-    
-//    public var completion: ((String, NSAttributedString, CLLocationCoordinate2D) -> Void)?
+
     
     // STT variables
     let audioEngine = AVAudioEngine()
     let speechRecognizer: SFSpeechRecognizer? = SFSpeechRecognizer()
     let request = SFSpeechAudioBufferRecognitionRequest()
     var recognitionTask: SFSpeechRecognitionTask?
+    
+    // Audio recording
+ 
+    var audioPlayer : AVAudioPlayer!
+    var isPlaying = false
     
     var selectedNote: Note? {
             didSet{
@@ -47,6 +52,11 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
     // delegate for noteTable VC
     var delegate: NoteTableViewController?
 
+     let attString = NSMutableAttributedString()
+    
+    var pathURL: URL? = nil
+
+    var playRecording: UIBarButtonItem = UIBarButtonItem()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,21 +68,17 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
     }
     
     func intials() {
-            //mic image
-               
-                
-            // tabBar delegate for attachments
-//                optionsTabBar.delegate = self
+
                 titleField.becomeFirstResponder()
-                
-            // save button(save function soon going to assigned on viewWillappear)
-            // navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(didTapSave))
-                    
-            self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "location"), style: .done, target: self, action: #selector(liveLocation))
-                
+
+         let mappin = UIBarButtonItem(image: UIImage(systemName: "mappin"), style: .done, target: self, action: #selector(liveLocation))
+        playRecording = UIBarButtonItem(image: UIImage(systemName: "play"), style: .done, target: self, action: #selector(playRecordedAudio))
+        self.navigationItem.rightBarButtonItems = [mappin, playRecording]
+        playRecording.isEnabled = false
             // hide keyboard by swiping down
                 self.hideKeyboardWhenTappedAround()
     
+        noteField.delegate = self
 
             // we give delegate to location manager to this class
                 locationManager.delegate = self
@@ -96,13 +102,16 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
         delegate?.updateNote(with: self.titleField.text ?? "No Title" ,text: self.noteField.attributedText ,date: dateFormatter.string(from: date))
     }
     
+    
+    //MARK: Live location
+    
     // objective C function for current location
     @objc func liveLocation(){
         let locationViewController = self.storyboard?.instantiateViewController(withIdentifier: "LocationViewController") as! LocationViewController
 
         locationViewController.coordinates = self.liveCoordinates
-        
-        self.navigationController?.pushViewController(locationViewController, animated: true)
+        locationViewController.modalPresentationStyle = UIModalPresentationStyle.popover
+        self.present(locationViewController, animated: true)
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -111,6 +120,56 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
         self.liveCoordinates = userLocation.coordinate
     }
     
+    //MARK: Play recorded audio
+    @objc func playRecordedAudio(){
+         print("URL of audio: \(pathURL!)")
+        
+        if(isPlaying)
+                  {
+                    audioPlayer.pause()
+                    playRecording.image = UIImage(systemName: "play")
+                    isPlaying = false
+                    
+                  }
+                  else
+                  {
+                    if FileManager.default.fileExists(atPath: pathURL!.path)
+                      {
+                        playRecording.image = UIImage(systemName: "pause")
+                        prepare_play()
+                        audioPlayer.play()
+                        isPlaying = true
+                      }
+                      else
+                      {
+                    display_alert(msg_title: "Error", msg_desc: "Audio file is missing.", action_title: "OK")
+                      }
+                  }
+               
+    }
+    func prepare_play()
+       {
+           do
+           {
+               audioPlayer = try AVAudioPlayer(contentsOf: pathURL!)
+               audioPlayer.delegate = self
+               audioPlayer.prepareToPlay()
+           }
+           catch{
+               print("Error")
+           }
+       }
+    
+    func display_alert(msg_title : String , msg_desc : String ,action_title : String)
+       {
+           let ac = UIAlertController(title: msg_title, message: msg_desc, preferredStyle: .alert)
+           ac.addAction(UIAlertAction(title: action_title, style: .default)
+           {
+               (result : UIAlertAction) -> Void in
+           _ = self.navigationController?.popViewController(animated: true)
+           })
+           present(ac, animated: true)
+       }
    
     //Contact picker
     @IBAction func pickContact(_ sender: UIBarButtonItem) {
@@ -150,15 +209,14 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
        
         let alert = UIAlertController(title: "Alert", message: "Please choose from below", preferredStyle: .actionSheet)
         alert.addAction(UIAlertAction(title: "Record", style: .default, handler: { (UIAlertAction) in
-            print("record")
-            
+//            print("record")
+
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let myAlert = storyboard.instantiateViewController(withIdentifier: "recordVC") as! RecordViewController
-            myAlert.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
-            myAlert.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
-            self.present(myAlert, animated: true, completion: nil)
-            
-                        
+            myAlert.attriString = self.noteField.attributedText
+            myAlert.modalPresentationStyle = UIModalPresentationStyle.popover
+            self.present(myAlert, animated: true)
+
         }))
         
         alert.addAction(UIAlertAction(title: "Choose from Files", style: .default, handler: { (UIAlertAction) in
@@ -187,12 +245,32 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
         self.present(alert, animated: true, completion: nil)
         
     }
-//    // pick image from actionSheet
+    
+    //MARK: Record audio method
+    func recordAudioFromUser(with url: URL, attributedString: NSAttributedString) {
+    
+         
+        self.pathURL = url
+//         print("URL of audio: \(pathURL!)")
+        attString.append(attributedString)
+        
+        let attributedStr = NSMutableAttributedString(string: "Your recorded file")
+        attributedStr.addAttribute(.link, value: "recording", range: NSRange(location: 0, length: 18))
+
+        attString.append(attributedStr)
+//            print(attString)
+
+//        playRecording.isEnabled = true
+}
+
+    
+    //MARK: Image picker method
+   // pick image from actionSheet
     @IBAction func pickImage(_ sender: UIBarButtonItem) {
             self.imagePicker =  UIImagePickerController()
             self.imagePicker.delegate = self
                       
-            let alert = UIAlertController(title: "Alert", message: "Please connect to physical device", preferredStyle:                 UIAlertController.Style.alert)
+            let alert = UIAlertController(title: "Alert", message: "Please connect to physical device", preferredStyle: UIAlertController.Style.alert)
 
             let ok = UIAlertAction(title: "OK", style: .default, handler: nil)
                       alert.addAction(ok)
@@ -246,7 +324,7 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
         let stringWithImage = NSAttributedString(attachment: attachedImage)
 
         // add the NSTextAttachment wrapper to our full string, then add some more text.
-        fullString.append(stringWithImage)
+       
 
 
         
@@ -254,6 +332,7 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
         guard let alreadyPresentString = self.noteField.attributedText else { return }
 
         fullString.append(alreadyPresentString)
+        fullString.append(stringWithImage)
       
         // draw the result in a text area
         self.noteField.attributedText = fullString
@@ -326,13 +405,27 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
             self.speechBtn.isEnabled = false
         }
     }
+    
+    //MARK: Navigation
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+    }
+    
+    //MARK: unwind to new note VC
+    @IBAction func unwindToNewNoteVC(_ unwindSegue: UIStoryboardSegue) {
+        let sourceViewController = unwindSegue.source as! RecordViewController
+        // Use data from the view controller which initiated the unwind segue
+        playRecording.isEnabled = true
+        self.pathURL = sourceViewController.getFileUrl()
+    }
 
 }
 
 //extension of self view controller
-extension NewNoteViewController {
+extension NewNoteViewController: UITextViewDelegate {
     
-    // hide keyboard by swiping down
+    //MARK: hide keyboard by swiping down
     func hideKeyboardWhenTappedAround() {
         let swipe: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(NewNoteViewController.dismissKeyboard))
         swipe.direction = .down
@@ -344,4 +437,6 @@ extension NewNoteViewController {
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
+    
+  
 }

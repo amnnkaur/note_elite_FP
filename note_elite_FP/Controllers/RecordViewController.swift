@@ -22,12 +22,22 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
     var isAudioRecordingGranted: Bool!
     var isRecording = false
     var isPlaying = false
+    
+    var delegate : NewNoteViewController = NewNoteViewController()
+    
+    var attriString: NSAttributedString = NSAttributedString()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         check_record_permission()
         // Do any additional setup after loading the view.
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        delegate.recordAudioFromUser(with: self.getFileUrl(), attributedString: attriString)
+        
+    }
+    
     func check_record_permission()
     {
         switch AVAudioSession.sharedInstance().recordPermission {
@@ -205,6 +215,11 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
         _ = self.navigationController?.popViewController(animated: true)
         })
         present(ac, animated: true)
+    }
+
+    
+    @IBAction func doneBTN(_ sender: UIBarButtonItem) {
+         dismiss(animated: true, completion: nil)
     }
     /*
     // MARK: - Navigation
