@@ -207,14 +207,14 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
         let firstName = contact.givenName
         let lastName = contact.familyName
         
-         self.noteField.text += "\nName: \(firstName) \(lastName)\nContact No. \((numbers?.value)?.stringValue ?? "")"
+      let contactString = "\n\nName: \(firstName) \(lastName)\nContact No. \((numbers?.value)?.stringValue ?? "")"
         
         let fullString = NSMutableAttributedString()
         // guard the variable from uncaught exception
         guard let alreadyPresentString = self.noteField.attributedText else { return }
 
         fullString.append(alreadyPresentString)
-           
+        fullString.append(NSAttributedString(string: contactString))
         // draw the result in a text area
         self.noteField.attributedText = fullString
             
