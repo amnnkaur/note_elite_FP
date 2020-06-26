@@ -181,6 +181,42 @@ class NoteTableViewController: UIViewController, UITableViewDelegate, UITableVie
             moveToBtn.isEnabled = !moveToBtn.isEnabled
     }
     
+    @IBAction func sortByBtn(_ sender: Any) {
+        
+        let actionSheet = UIAlertController(title: "Sort By...", message: "", preferredStyle: .actionSheet)
+               let titleAction = UIAlertAction(title: "Title", style: .default) { (action) in
+                   // sort by title
+                   self.sortByTitle()
+               }
+               let dateAction = UIAlertAction(title: "Date", style: .default) { (action) in
+                   //sort by date
+                   self.sortByDate()
+               }
+               actionSheet.addAction(titleAction)
+               actionSheet.addAction(dateAction)
+               present(actionSheet, animated: true)
+    }
+    
+    func sortByTitle() {
+        loadNotes()
+    }
+    
+    func sortByDate() {
+        
+        let request: NSFetchRequest<Note> = Note.fetchRequest()
+                 let folderPredicate = NSPredicate(format: "parentFolder.name=%@", selectedFolder!.name!)
+                 request.sortDescriptors = [NSSortDescriptor(key: "dateTime", ascending: true)]
+           request.predicate = folderPredicate
+            
+            do {
+                notes = try context.fetch(request)
+            } catch  {
+                print("Error loading tasks: \(error.localizedDescription)")
+            }
+        
+           notesTable?.reloadData()
+        
+    }
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
            // if editemode is true should make it true

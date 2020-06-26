@@ -134,11 +134,18 @@
                         </barButtonItem>
                     </toolbarItems>
                     <navigationItem key="navigationItem" title="Notes" id="t9l-85-wyI">
-                        <barButtonItem key="rightBarButtonItem" title="Item" image="ellipsis" catalog="system" id="rmN-aq-fCB">
-                            <connections>
-                                <action selector="editBtnPressed:" destination="BYZ-38-t0r" id="EIq-rc-GNa"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem title="Item" image="ellipsis" catalog="system" id="rmN-aq-fCB">
+                                <connections>
+                                    <action selector="editBtnPressed:" destination="BYZ-38-t0r" id="EIq-rc-GNa"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Item" image="arrow.up.arrow.down" catalog="system" id="jp8-lB-3nl">
+                                <connections>
+                                    <action selector="sortByBtn:" destination="BYZ-38-t0r" id="bWO-dH-Uel"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
@@ -484,6 +491,7 @@
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.088881986590000003" green="0.21694519349999999" blue="0.26583433969999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
     <resources>
+        <image name="arrow.up.arrow.down" catalog="system" width="128" height="96"/>
         <image name="camera" catalog="system" width="128" height="96"/>
         <image name="doc" catalog="system" width="115" height="128"/>
         <image name="ellipsis" catalog="system" width="128" height="37"/>
