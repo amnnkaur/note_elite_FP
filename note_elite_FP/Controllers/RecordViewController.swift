@@ -14,7 +14,7 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
     @IBOutlet weak var recordingTimeLabel: UILabel!
     @IBOutlet weak var record_btn_ref: UIButton!
     @IBOutlet weak var play_btn_ref: UIButton!
-    
+    var recTitle: String?
     
     var audioRecorder: AVAudioRecorder!
     var audioPlayer : AVAudioPlayer!
@@ -34,7 +34,7 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        delegate.recordAudioFromUser(with: self.getFileUrl(), attributedString: attriString)
+//        delegate.recordAudioFromUser(with: self.getFileUrl(), attributedString: attriString)
         
     }
     
@@ -60,19 +60,26 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
             break
         }
     }
-    func getDocumentsDirectory() -> URL
-    {
-        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        let documentsDirectory = paths[0]
-        return documentsDirectory
-    }
-
-    func getFileUrl() -> URL
-    {
-        let filename = "myRecording.m4a"
-        let filePath = getDocumentsDirectory().appendingPathComponent(filename)
-    return filePath
-    }
+//    func getDocumentsDirectory() -> URL
+//    {
+//        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+//        let documentsDirectory = paths[0]
+//        return documentsDirectory
+//    }
+//
+//    func getFileUrl() -> URL
+//    {
+//        let filename = "recordingFile\(recTitle!).m4a"
+//        let filePath = getDocumentsDirectory().appendingPathComponent(filename)
+//    return filePath
+//    }
+    
+    func getDataFilePath() -> String {
+         let documentPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+         
+         let filePath = documentPath.appending("/recordingFile\(recTitle!).m4a")
+         return filePath
+     }
     
     func setup_recorder()
     {
@@ -89,7 +96,7 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
                     AVNumberOfChannelsKey: 2,
                     AVEncoderAudioQualityKey:AVAudioQuality.high.rawValue
                 ]
-                audioRecorder = try AVAudioRecorder(url: getFileUrl(), settings: settings)
+                audioRecorder = try AVAudioRecorder(url: URL(fileURLWithPath: getDataFilePath()), settings: settings)
                 audioRecorder.delegate = self
                 audioRecorder.isMeteringEnabled = true
                 audioRecorder.prepareToRecord()
@@ -157,7 +164,7 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
     {
         do
         {
-            audioPlayer = try AVAudioPlayer(contentsOf: getFileUrl())
+            audioPlayer = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: getDataFilePath()))
             audioPlayer.delegate = self
             audioPlayer.prepareToPlay()
         }
@@ -175,7 +182,7 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
            }
            else
            {
-               if FileManager.default.fileExists(atPath: getFileUrl().path)
+            if FileManager.default.fileExists(atPath: URL(fileURLWithPath: getDataFilePath()).path)
                {
                    record_btn_ref.isEnabled = false
                    play_btn_ref.setTitle("pause", for: .normal)

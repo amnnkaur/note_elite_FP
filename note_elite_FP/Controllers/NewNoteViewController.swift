@@ -54,17 +54,20 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
 
      let attString = NSMutableAttributedString()
     
-    var pathURL: URL? = nil
+    var pathURL: String = "noURL"
 
     var playRecording: UIBarButtonItem = UIBarButtonItem()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-       intials()
         titleField.text = selectedNote?.title
         noteField.attributedText = selectedNote?.noteText
         dateFormatter.dateFormat = "MMM d, h:mm a"
+        pathURL = selectedNote?.audioURL ?? ""
+        
+    print("ViewDIDLOAD: \(pathURL)")
+     intials()
+
     }
     
     func intials() {
@@ -74,7 +77,15 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
          let mappin = UIBarButtonItem(image: UIImage(systemName: "mappin"), style: .done, target: self, action: #selector(liveLocation))
         playRecording = UIBarButtonItem(image: UIImage(systemName: "play"), style: .done, target: self, action: #selector(playRecordedAudio))
         self.navigationItem.rightBarButtonItems = [mappin, playRecording]
-        playRecording.isEnabled = false
+        
+        if pathURL == "noURL" || pathURL == "" {
+            
+             playRecording.isEnabled = false
+        }else{
+           
+            playRecording.isEnabled = true
+
+        }
             // hide keyboard by swiping down
                 self.hideKeyboardWhenTappedAround()
     
@@ -99,7 +110,7 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
         if editMode{
             delegate!.deleteNote(note: selectedNote!)
         }
-        delegate?.updateNote(with: self.titleField.text ?? "No Title" ,text: self.noteField.attributedText ,date: dateFormatter.string(from: date))
+        delegate?.updateNote(with: self.titleField.text ?? "No Title" ,text: self.noteField.attributedText ,date: dateFormatter.string(from: date), pathURL: self.pathURL)
     }
     
     
@@ -122,8 +133,7 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
     
     //MARK: Play recorded audio
     @objc func playRecordedAudio(){
-         print("URL of audio: \(pathURL!)")
-        
+       print("Audio: \(pathURL)")
         if(isPlaying)
                   {
                     audioPlayer.pause()
@@ -133,7 +143,7 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
                   }
                   else
                   {
-                    if FileManager.default.fileExists(atPath: pathURL!.path)
+                    if FileManager.default.fileExists(atPath: URL(fileURLWithPath: pathURL).path)
                       {
                         playRecording.image = UIImage(systemName: "pause")
                         prepare_play()
@@ -151,7 +161,7 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
        {
            do
            {
-               audioPlayer = try AVAudioPlayer(contentsOf: pathURL!)
+               audioPlayer = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: pathURL))
                audioPlayer.delegate = self
                audioPlayer.prepareToPlay()
            }
@@ -166,7 +176,7 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
            ac.addAction(UIAlertAction(title: action_title, style: .default)
            {
                (result : UIAlertAction) -> Void in
-           _ = self.navigationController?.popViewController(animated: true)
+         
            })
            present(ac, animated: true)
        }
@@ -213,7 +223,8 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
 
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let myAlert = storyboard.instantiateViewController(withIdentifier: "recordVC") as! RecordViewController
-            myAlert.attriString = self.noteField.attributedText
+//            myAlert.attriString = self.noteField.attributedText
+            myAlert.recTitle = self.titleField.text
             myAlert.modalPresentationStyle = UIModalPresentationStyle.popover
             self.present(myAlert, animated: true)
 
@@ -247,21 +258,21 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
     }
     
     //MARK: Record audio method
-    func recordAudioFromUser(with url: URL, attributedString: NSAttributedString) {
-    
-         
-        self.pathURL = url
-//         print("URL of audio: \(pathURL!)")
-        attString.append(attributedString)
-        
-        let attributedStr = NSMutableAttributedString(string: "Your recorded file")
-        attributedStr.addAttribute(.link, value: "recording", range: NSRange(location: 0, length: 18))
-
-        attString.append(attributedStr)
-//            print(attString)
-
-//        playRecording.isEnabled = true
-}
+//    func recordAudioFromUser(with url: URL, attributedString: NSAttributedString) {
+//
+//
+//        self.pathURL = url
+////         print("URL of audio: \(pathURL!)")
+//        attString.append(attributedString)
+//
+//        let attributedStr = NSMutableAttributedString(string: "Your recorded file")
+//        attributedStr.addAttribute(.link, value: "recording", range: NSRange(location: 0, length: 18))
+//
+//        attString.append(attributedStr)
+////            print(attString)
+//
+////        playRecording.isEnabled = true
+//}
 
     
     //MARK: Image picker method
@@ -417,7 +428,8 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
         let sourceViewController = unwindSegue.source as! RecordViewController
         // Use data from the view controller which initiated the unwind segue
         playRecording.isEnabled = true
-        self.pathURL = sourceViewController.getFileUrl()
+        self.pathURL = sourceViewController.getDataFilePath()
+      
     }
 
 }
