@@ -65,7 +65,7 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
         dateFormatter.dateFormat = "MMM d, h:mm a"
         pathURL = selectedNote?.audioURL ?? ""
         
-    print("ViewDIDLOAD: \(pathURL)")
+//    print("ViewDIDLOAD: \(pathURL)")
      intials()
 
     }
@@ -132,8 +132,20 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
     }
     
     //MARK: Play recorded audio
+    
+    func getDataFilePath() -> String {
+            let documentPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+            
+        let filePath = documentPath.appending("/recordingFile\(titleField.text!).m4a")
+            return filePath
+        }
+    
     @objc func playRecordedAudio(){
-       print("Audio: \(pathURL)")
+       
+        pathURL = getDataFilePath()
+        
+//        print("Audio: \(pathURL)")
+        
         if(isPlaying)
                   {
                     audioPlayer.pause()
