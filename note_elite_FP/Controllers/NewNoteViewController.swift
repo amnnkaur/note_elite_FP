@@ -320,6 +320,8 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
             self.present(self.imagePicker, animated: true, completion: nil)
                     
             }))
+        
+         actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         self.present(actionSheet, animated: true, completion: nil)
     }
     
