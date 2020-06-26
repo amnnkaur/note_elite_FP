@@ -264,7 +264,7 @@ class NoteTableViewController: UIViewController, UITableViewDelegate, UITableVie
     func notesSearchBar(){
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search Notes"
-        searchController.searchBar.scopeButtonTitles = ["Title", "Notes"]
+        searchController.searchBar.scopeButtonTitles = ["Title", "Date-Time"]
         navigationItem.searchController = searchController
         searchController.searchBar.delegate = self
         definesPresentationContext = true
@@ -285,7 +285,7 @@ extension NoteTableViewController: UISearchBarDelegate, UISearchDisplayDelegate 
                      loadNotes(predicate: titlePredicate)
                  }else if searchController.searchBar.selectedScopeButtonIndex == 1 {
                      var descriptionPredicate: NSPredicate = NSPredicate()
-                     descriptionPredicate = NSPredicate(format: "noteText CONTAINS[cd] '\(searchText)'")
+                     descriptionPredicate = NSPredicate(format: "dateTime CONTAINS[cd] '\(searchText)'")
                      loadNotes(predicate: descriptionPredicate)
                  }
                 
