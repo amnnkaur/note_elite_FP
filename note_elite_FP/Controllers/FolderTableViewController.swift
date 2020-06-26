@@ -49,6 +49,10 @@ class FolderTableViewController: UITableViewController {
                print("Error Loading Folders: \(error.localizedDescription)")
            }
        }
+    
+    func deleteFolder(folder: Folder) {
+             context.delete(folder)
+         }
 
        func savefolders()  {
            do {
@@ -92,17 +96,32 @@ class FolderTableViewController: UITableViewController {
     }
     */
 
-    /*
+    
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
+             let alert = UIAlertController(title: "Alert", message: "Are you sure you want to delete this?", preferredStyle: .alert)
+                            let addAction = UIAlertAction(title: "OK", style: .default) { (UIAlertAction) in
+                                // Delete the row from the data source
+                                self.deleteFolder(folder: self.folders[indexPath.row])
+                                self.savefolders()
+                                self.folders.remove(at: indexPath.row)
+                                
+                                // Delete the row from the data source
+                                tableView.deleteRows(at: [indexPath], with: .fade)
+                                
+            //                    self.deleteData(newArray)
+                            }
+                            let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil)
+                        
+                            alert.addAction(addAction)
+                            alert.addAction(cancelAction)
+                               present(alert, animated: true, completion: nil)
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
     }
-    */
+    
 
     /*
     // Override to support rearranging the table view.
