@@ -15,6 +15,7 @@
 		2A170C1324948B5B00CD37DB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2A170C1124948B5B00CD37DB /* LaunchScreen.storyboard */; };
 		2A3D840C24A02DAE00DCF808 /* RecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3D840B24A02DAE00DCF808 /* RecordViewController.swift */; };
 		2A5920E124A16A4500FF3539 /* MoveToViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A5920E024A16A4500FF3539 /* MoveToViewController.swift */; };
+		2A59211924A6823900FF3539 /* noteicn.png in Resources */ = {isa = PBXBuildFile; fileRef = 2A59211824A6823900FF3539 /* noteicn.png */; };
 		2ADB64D724968EA000EC55F9 /* NewNoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADB64D624968EA000EC55F9 /* NewNoteViewController.swift */; };
 		2ADB64D92496910200EC55F9 /* NoteDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADB64D82496910200EC55F9 /* NoteDetailViewController.swift */; };
 		8EC4D6E0249C1D2E003D14AF /* LocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC4D6DF249C1D2E003D14AF /* LocationViewController.swift */; };
@@ -34,6 +35,7 @@
 		2A170C1424948B5B00CD37DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2A3D840B24A02DAE00DCF808 /* RecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordViewController.swift; sourceTree = "<group>"; };
 		2A5920E024A16A4500FF3539 /* MoveToViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveToViewController.swift; sourceTree = "<group>"; };
+		2A59211824A6823900FF3539 /* noteicn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = noteicn.png; sourceTree = "<group>"; };
 		2ADB64D624968EA000EC55F9 /* NewNoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewNoteViewController.swift; sourceTree = "<group>"; };
 		2ADB64D82496910200EC55F9 /* NoteDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteDetailViewController.swift; sourceTree = "<group>"; };
 		8EC4D6DF249C1D2E003D14AF /* LocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationViewController.swift; sourceTree = "<group>"; };
@@ -79,6 +81,7 @@
 				2A170C0624948B5B00CD37DB /* AppDelegate.swift */,
 				2A170C0824948B5B00CD37DB /* SceneDelegate.swift */,
 				2A170C0F24948B5B00CD37DB /* Assets.xcassets */,
+				2A59211824A6823900FF3539 /* noteicn.png */,
 				2A170C1124948B5B00CD37DB /* LaunchScreen.storyboard */,
 				2A170C1424948B5B00CD37DB /* Info.plist */,
 			);
@@ -183,6 +186,7 @@
 			files = (
 				2A170C1324948B5B00CD37DB /* LaunchScreen.storyboard in Resources */,
 				2A170C1024948B5B00CD37DB /* Assets.xcassets in Resources */,
+				2A59211924A6823900FF3539 /* noteicn.png in Resources */,
 				2A170C0E24948B5B00CD37DB /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
