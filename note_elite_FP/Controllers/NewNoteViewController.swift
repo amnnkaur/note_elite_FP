@@ -24,10 +24,12 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
     
     var locationManager = CLLocationManager()
     var imagePicker: UIImagePickerController!
-    var liveCoordinates: CLLocationCoordinate2D?
+//    var liveCoordinates: CLLocationCoordinate2D?
     let date : Date = Date()
     let dateFormatter = DateFormatter()
 
+    var locationLat: Double = 43.6532
+    var locationLong: Double = -79.3832
     
     // STT variables
     let audioEngine = AVAudioEngine()
@@ -120,17 +122,18 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
     @objc func liveLocation(){
         let locationViewController = self.storyboard?.instantiateViewController(withIdentifier: "LocationViewController") as! LocationViewController
 
-        locationViewController.coordinates = self.liveCoordinates
+        locationViewController.lat = self.locationLat
+        locationViewController.long = self.locationLong
         locationViewController.modalPresentationStyle = UIModalPresentationStyle.popover
         self.present(locationViewController, animated: true)
     }
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        let userLocation = locations[0]
-              
-        self.liveCoordinates = userLocation.coordinate
-    }
-    
+//
+//    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+//        let userLocation = locations[0]
+//
+//        self.liveCoordinates = userLocation.coordinate
+//    }
+////
     //MARK: Play recorded audio
     
     func getDataFilePath() -> String {
@@ -444,6 +447,14 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
         playRecording.isEnabled = true
         self.pathURL = sourceViewController.getDataFilePath()
       
+    }
+    
+    @IBAction func unwindLocationToNewNote(_ unwindSegue: UIStoryboardSegue) {
+        let sourceViewController = unwindSegue.source as! LocationViewController
+        // Use data from the view controller which initiated the unwind segue
+        self.locationLat = sourceViewController.lat
+        self.locationLong = sourceViewController.long
+        
     }
 
 }
