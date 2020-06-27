@@ -95,33 +95,55 @@ class FolderTableViewController: UITableViewController {
         return true
     }
     */
+    
+    override func tableView(_ tableView: UITableView,
+          contextMenuConfigurationForRowAt indexPath: IndexPath,
+          point: CGPoint) -> UIContextMenuConfiguration? {
+ 
+            let delete = UIAction(title: "Delete", image: UIImage(systemName: "trash"),
+            attributes: .destructive) { _ in
+                
+            
+               
+                self.deleteFolder(folder: self.folders[indexPath.row] )
+                self.savefolders()
+                self.folders.remove(at: indexPath.row)
+                self.tableView.deleteRows(at: [indexPath], with: .fade)
+               
+                          }
 
-    
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-             let alert = UIAlertController(title: "Alert", message: "Are you sure you want to delete this?", preferredStyle: .alert)
-                            let addAction = UIAlertAction(title: "OK", style: .default) { (UIAlertAction) in
-                                // Delete the row from the data source
-                                self.deleteFolder(folder: self.folders[indexPath.row])
-                                self.savefolders()
-                                self.folders.remove(at: indexPath.row)
-                                
-                                // Delete the row from the data source
-                                tableView.deleteRows(at: [indexPath], with: .fade)
-                                
-            //                    self.deleteData(newArray)
-                            }
-                            let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil)
-                        
-                            alert.addAction(addAction)
-                            alert.addAction(cancelAction)
-                               present(alert, animated: true, completion: nil)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    
+          return UIContextMenuConfiguration(identifier: nil,
+            previewProvider: nil) { _ in
+            UIMenu(title: "Actions", children: [ delete])
+          }
+        }
+
+//    
+//    // Override to support editing the table view.
+//    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+//        if editingStyle == .delete {
+//             let alert = UIAlertController(title: "Alert", message: "Are you sure you want to delete this?", preferredStyle: .alert)
+//                            let addAction = UIAlertAction(title: "OK", style: .default) { (UIAlertAction) in
+//                                // Delete the row from the data source
+//                                self.deleteFolder(folder: self.folders[indexPath.row])
+//                                self.savefolders()
+//                                self.folders.remove(at: indexPath.row)
+//                                
+//                                // Delete the row from the data source
+//                                tableView.deleteRows(at: [indexPath], with: .fade)
+//                                
+//            //                    self.deleteData(newArray)
+//                            }
+//                            let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil)
+//                        
+//                            alert.addAction(addAction)
+//                            alert.addAction(cancelAction)
+//                               present(alert, animated: true, completion: nil)
+//        } else if editingStyle == .insert {
+//            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+//        }    
+//    }
+//    
 
     /*
     // Override to support rearranging the table view.
