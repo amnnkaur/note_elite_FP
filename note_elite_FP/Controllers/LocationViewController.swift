@@ -98,7 +98,7 @@ class LocationViewController: UIViewController, CLLocationManagerDelegate, MKMap
                                     if let places = placemarks {
                                         for place in places {
                                             annotation.title = place.name
-                                            annotation.subtitle = "\(place.locality!) ,  \(place.postalCode!)"
+                                            annotation.subtitle = "\(place.locality ?? "No Locality") ,  \(place.postalCode ?? "No Postal code")"
                                         }
                                     }
                                 }

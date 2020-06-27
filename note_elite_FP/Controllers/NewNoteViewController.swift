@@ -34,8 +34,9 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
     // STT variables
     let audioEngine = AVAudioEngine()
     let speechRecognizer: SFSpeechRecognizer? = SFSpeechRecognizer()
-    let request = SFSpeechAudioBufferRecognitionRequest()
+    private var request = SFSpeechAudioBufferRecognitionRequest()
     var recognitionTask: SFSpeechRecognitionTask?
+    var finalSTTString = NSMutableAttributedString()
     
     // Audio recording
  
@@ -369,29 +370,50 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
        
     }
     
-       //button for converting speech to text
+       //MARK: converting speech to text
     @IBAction func speechToTextButton(_ sender: UIBarButtonItem) {
-         
-                if audioEngine.isRunning {
-                    self.recognitionTask?.finish()
-                    audioEngine.inputNode.removeTap(onBus: 0)
-                    self.request.endAudio()
+        
 
-                    self.recognitionTask = nil
+       
+                if audioEngine.isRunning {
                     
-                    self.audioEngine.stop()
+                    stopRecording()
+                  
+                    self.finalSTTString.append(self.noteField.attributedText)
+                    
                     self.speechBtn.image = UIImage(systemName: "mic")
+                    
+                    self.noteField.attributedText = finalSTTString
+                    
+                    finalSTTString.deleteCharacters(in: NSRange(location: 0, length: finalSTTString.length))
+                    
+                 
             }else
                 {
                     self.recordAndRecognizeSpeech()
                     self.speechBtn.image = UIImage(systemName: "stop.fill")
+                   
                     self.noteField.text = "Speak now!!"
-            }
+                    
     }
+   
+}
 
   
+    //MARK: Record and recognize speech
     
     func recordAndRecognizeSpeech(){
+        
+            finalSTTString.append(self.noteField.attributedText)
+        
+            self.recognitionTask?.finish()
+           
+            audioEngine.inputNode.removeTap(onBus: 0)
+                              
+            self.recognitionTask = nil
+        
+                          
+              
        let node = audioEngine.inputNode
            let recordingFormat = node.outputFormat(forBus: 0)
            node.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) { buffer, _ in
@@ -413,18 +435,19 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
                return
            }
         
-           recognitionTask = speechRecognizer?.recognitionTask(with: request, resultHandler: { (result, error) in
+        recognitionTask = speechRecognizer?.recognitionTask(with: request, resultHandler: { (result, error) in
                if let result = result {
                    let bestString = result.bestTranscription.formattedString
+                  
+               self.noteField.attributedText = NSAttributedString(string: bestString)
                 
-                self.noteField.text = bestString
-                
-               } else if let error =  error{
+               }else if let error =  error{
                    print(error)
                }
-          
+  
+            
            })
-       
+  
        }
 
     // if availabity of speech recognizer did change
@@ -435,6 +458,16 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
             self.speechBtn.isEnabled = false
         }
     }
+    
+    func stopRecording() {
+          audioEngine.stop()
+          request.endAudio()
+          // Cancel the previous task if it's running
+          if let recognitionTask = recognitionTask {
+              recognitionTask.cancel()
+              self.recognitionTask = nil
+          }
+      }
     
     //MARK: Navigation
     
