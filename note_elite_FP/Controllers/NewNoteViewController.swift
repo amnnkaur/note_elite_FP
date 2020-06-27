@@ -66,6 +66,8 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
         noteField.attributedText = selectedNote?.noteText
         dateFormatter.dateFormat = "MMM d, h:mm a"
         pathURL = selectedNote?.audioURL ?? ""
+        locationLat = selectedNote?.latitude ?? 43.6532
+        locationLong = selectedNote?.longitude ?? -79.3832
         
 //    print("ViewDIDLOAD: \(pathURL)")
      intials()
@@ -112,7 +114,7 @@ class NewNoteViewController: UIViewController, SFSpeechRecognizerDelegate, UITab
         if editMode{
             delegate!.deleteNote(note: selectedNote!)
         }
-        delegate?.updateNote(with: self.titleField.text ?? "No Title" ,text: self.noteField.attributedText ,date: dateFormatter.string(from: date), pathURL: self.pathURL)
+        delegate?.updateNote(with: self.titleField.text ?? "No Title" ,text: self.noteField.attributedText ,date: dateFormatter.string(from: date), pathURL: self.pathURL, latitude: self.locationLat, longitude: self.locationLong)
     }
     
     

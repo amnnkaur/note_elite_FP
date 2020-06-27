@@ -149,7 +149,7 @@ class NoteTableViewController: UIViewController, UITableViewDelegate, UITableVie
           }
       }
      //MARK: update note
-    func updateNote(with title: String ,text: NSAttributedString ,date: String, pathURL: String) {
+    func updateNote(with title: String ,text: NSAttributedString ,date: String, pathURL: String, latitude: Double, longitude: Double) {
 
             notes = []
             let newNote = Note(context: context)
@@ -157,6 +157,8 @@ class NoteTableViewController: UIViewController, UITableViewDelegate, UITableVie
             newNote.noteText = text
             newNote.dateTime = date
             newNote.audioURL = pathURL
+            newNote.latitude = latitude
+            newNote.longitude = longitude
             newNote.parentFolder = selectedFolder
             saveNote()
             loadNotes()
