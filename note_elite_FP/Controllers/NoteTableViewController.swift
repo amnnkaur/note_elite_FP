@@ -96,6 +96,7 @@ class NoteTableViewController: UIViewController, UITableViewDelegate, UITableVie
             let note = notes[indexPath.row]
             cell.textLabel?.text = note.title
             cell.detailTextLabel?.text = " \(note.dateTime!)"
+         cell.textLabel?.textColor = .darkGray
         cell.detailTextLabel?.textColor = .systemYellow
             let backgroundView = UIView()
             backgroundView.backgroundColor = .darkGray
@@ -190,12 +191,15 @@ class NoteTableViewController: UIViewController, UITableViewDelegate, UITableVie
                    // sort by title
                    self.sortByTitle()
                }
-               let dateAction = UIAlertAction(title: "Date", style: .default) { (action) in
+        let dateAction = UIAlertAction(title: "Date", style: .default) { (action) in
                    //sort by date
                    self.sortByDate()
                }
-               actionSheet.addAction(titleAction)
-               actionSheet.addAction(dateAction)
+                
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        actionSheet.addAction(titleAction)
+        actionSheet.addAction(dateAction)
+        actionSheet.addAction(cancelAction)
                present(actionSheet, animated: true)
     }
     

@@ -205,11 +205,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KeI-3B-6d8">
-                                <rect key="frame" x="20" y="109" width="374" height="35"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="28"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
-                            </textField>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="2Iu-9W-SVw">
                                 <rect key="frame" x="20" y="152" width="374" height="639"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -220,14 +215,21 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KeI-3B-6d8">
+                                <rect key="frame" x="20" y="88" width="374" height="56"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="35"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="b74-ma-G8l" firstAttribute="trailing" secondItem="2Iu-9W-SVw" secondAttribute="trailing" constant="20" id="GWj-GS-L0E"/>
                             <constraint firstItem="2Iu-9W-SVw" firstAttribute="leading" secondItem="b74-ma-G8l" secondAttribute="leading" constant="20" id="HCX-LF-qk5"/>
+                            <constraint firstItem="2Iu-9W-SVw" firstAttribute="top" secondItem="KeI-3B-6d8" secondAttribute="bottom" constant="8" id="NPP-BF-1zL"/>
                             <constraint firstItem="b74-ma-G8l" firstAttribute="bottom" secondItem="2Iu-9W-SVw" secondAttribute="bottom" constant="22" id="Yf0-PQ-9hd"/>
+                            <constraint firstItem="KeI-3B-6d8" firstAttribute="top" secondItem="4bn-u4-mJB" secondAttribute="topMargin" constant="-52" id="aOW-a6-CyM"/>
                             <constraint firstItem="KeI-3B-6d8" firstAttribute="leading" secondItem="b74-ma-G8l" secondAttribute="leading" constant="20" id="gS4-zU-Jd5"/>
-                            <constraint firstItem="KeI-3B-6d8" firstAttribute="top" secondItem="4bn-u4-mJB" secondAttribute="top" constant="109" id="y7Q-Xt-Ghd"/>
+                            <constraint firstItem="KeI-3B-6d8" firstAttribute="trailing" secondItem="2Iu-9W-SVw" secondAttribute="trailing" id="mMD-nq-LRW"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="b74-ma-G8l"/>
                     </view>
