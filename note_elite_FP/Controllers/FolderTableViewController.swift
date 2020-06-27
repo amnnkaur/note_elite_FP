@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class FolderTableViewController: UITableViewController {
+class FolderTableViewController: UITableViewController, UISearchBarDelegate {
     
         // create a folder array to populate the table
         var folders = [Folder]()
@@ -17,6 +17,7 @@ class FolderTableViewController: UITableViewController {
         // 1 Step -  we need to have instance of app delegate
         //let appDelegate =
 
+      let searchController = UISearchController()
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 
     override func viewDidLoad() {
@@ -31,6 +32,7 @@ class FolderTableViewController: UITableViewController {
           print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
         
                 loadFolder()
+        folderSearchBar()
             
     }
     
@@ -40,14 +42,20 @@ class FolderTableViewController: UITableViewController {
 
     
     //MARK: Table View Data Source
-       func loadFolder() {
+       func loadFolder(predicate: NSPredicate? = nil) {
        let request: NSFetchRequest<Folder> = Folder.fetchRequest()
+        
+        if let additionalPredicate = predicate{
+            request.predicate = additionalPredicate
+        }
            
            do {
               folders = try context.fetch(request)
            } catch  {
                print("Error Loading Folders: \(error.localizedDescription)")
            }
+        
+        tableView.reloadData()
        }
     
     func deleteFolder(folder: Folder) {
@@ -118,7 +126,7 @@ class FolderTableViewController: UITableViewController {
           }
         }
 
-//    
+//
 //    // Override to support editing the table view.
 //    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
 //        if editingStyle == .delete {
@@ -128,22 +136,22 @@ class FolderTableViewController: UITableViewController {
 //                                self.deleteFolder(folder: self.folders[indexPath.row])
 //                                self.savefolders()
 //                                self.folders.remove(at: indexPath.row)
-//                                
+//
 //                                // Delete the row from the data source
 //                                tableView.deleteRows(at: [indexPath], with: .fade)
-//                                
+//
 //            //                    self.deleteData(newArray)
 //                            }
 //                            let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil)
-//                        
+//
 //                            alert.addAction(addAction)
 //                            alert.addAction(cancelAction)
 //                               present(alert, animated: true, completion: nil)
 //        } else if editingStyle == .insert {
 //            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-//        }    
+//        }
 //    }
-//    
+//
 
     /*
     // Override to support rearranging the table view.
@@ -213,4 +221,37 @@ class FolderTableViewController: UITableViewController {
          present(alert, animated: true, completion: nil)
      }
     
+    func folderSearchBar(){
+           searchController.obscuresBackgroundDuringPresentation = false
+           searchController.searchBar.placeholder = "Search Folder"
+           searchController.searchBar.scopeButtonTitles = ["Title", "Notes-title"]
+           navigationItem.searchController = searchController
+           searchController.searchBar.delegate = self
+           definesPresentationContext = true
+       }
+    
 }
+extension FolderTableViewController: UISearchDisplayDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+       
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+      if searchText != ""{
+                 if searchController.searchBar.selectedScopeButtonIndex == 0{
+                     var titlePredicate: NSPredicate = NSPredicate()
+                     titlePredicate = NSPredicate(format: "name CONTAINS[cd] '\(searchText)'")
+                     loadFolder(predicate: titlePredicate)
+                 }else if searchController.searchBar.selectedScopeButtonIndex == 1 {
+                     var descriptionPredicate: NSPredicate = NSPredicate()
+                     descriptionPredicate = NSPredicate(format: "notes.title CONTAINS[cd] '\(searchText)'")
+                     loadFolder(predicate: descriptionPredicate)
+                 }
+                
+             }
+             else{
+                 loadFolder()
+             }
+    }
+}
+
